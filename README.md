@@ -1,6 +1,6 @@
 SynthDefs-for-Patterns
 ======================
-
+hello 
 Collection of SuperCollider SynthDefs (synth definitions) for use with Patterns
 
 WARNING: very much a work in progress (barely started).
