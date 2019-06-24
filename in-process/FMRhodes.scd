@@ -1,4 +1,6 @@
   /*
+Retrieved from: http://sccode.org/1-522
+
 FM Rhodes Synthesizer
 
 Native SuperCollider port of STK's Rhodey. This should be preferred over the StkInst version because:
@@ -66,28 +68,3 @@ Pbind(
 ).play(TempoClock(1.5));
 )
 
-
-//////////////////////////////////////////////////////////////////
-// STK version (for comparison)
-
-// The following requires sc3-plugins, and a correctly set directory for Stk:
-{ StkGlobals.ar(1, 1, "/home/nathan/src/stk-4.5.1/rawwaves/") }.play;
-
-(
-SynthDef(\rhodey_stk, {
-    |out = 0, freq = 440, gate = 1, vel = 0.8, amp = 0.1, modIndex = 0.2, mix = 0.2, lfoSpeed = 0.4, lfoDepth = 0.1|
-    var snd, env;
-    env = EnvGen.kr(Env.asr(0, 1, 0.1), gate, doneAction:2);
-    snd = StkInst.ar(Stk.at("Rhodey"), freq, gate, vel, 0.5, [
-        // from https://ccrma.stanford.edu/software/stk/classstk_1_1Rhodey.html#details
-        2, modIndex * 128,
-        4, mix * 128,
-        11, lfoSpeed * 128,
-        1, lfoDepth * 128,
-        128, 128
-    ]) * env;
-    snd = Pan2.ar(snd, 0, amp);
-
-    Out.ar(out, snd);
-}).add;
-)
