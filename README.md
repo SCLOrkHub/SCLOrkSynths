@@ -9,7 +9,7 @@ I don't remember where I got some SynthDefs from. I will do my best to add credi
 
 Feel free to add new SynthDefs to the collection, or suggest new ones.
 
-##Some conventions
+## Some conventions
 
 SynthDefs should have the following arguments (default values encouraged but flexible):
 
