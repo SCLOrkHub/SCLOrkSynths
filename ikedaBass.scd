@@ -33,7 +33,7 @@ SynthDef("ikedaBass", { arg out = 0, freq = 52.8, att = 0, dec = 0.1, sus = 0.8,
 (
 Pbind(
 	\instrument, "ikedaBass",
-	\dur, Pseq([1, 0.75, 0.75, 1, 0.5], inf) * 0.5,
+	\dur, Pseq([1, 0.75, 0.75, 1, 0.5], inf) * 1.5,
 	\legato, Pseq([0.75, 0.5, 0.5, 0.4, 0.6], inf),
 	\amp, 1
 ).play;
