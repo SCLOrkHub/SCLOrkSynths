@@ -22,16 +22,3 @@ SynthDef("werkit", {
 	snd = (0.7 * filter + (0.3 * filter.distort)) * env;
 	Out.ar(out, Pan2.ar(snd, pan));
 }).add;
-
-
-loadRelative("utilities.scd");
-
-~addSynthDemo.value("werkit",
-	Pbind(
-		\instrument, "werkit",
-		\amp, Pwhite(0.05, 0.1),
-		\note, Pseq([-1, 1, -1, 1, 3, 6, 9, 11, 12, 15, 17, 18, 19, 20, 23, 26], inf),
-		\dur, 0.25,
-		\rq, Pwhite(0.005, 0.01)
-	);
-)
