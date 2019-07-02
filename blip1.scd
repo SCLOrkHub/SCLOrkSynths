@@ -10,7 +10,14 @@ SynthDef("blip1", {arg out = 0, freq = 25, numharm = 10, att = 0.01, rel = 1, am
 	snd = Mix.ar(snd);
 	snd = Pan2.ar(snd, pan);
 	Out.ar(out, snd);
-}).add;
+},
+
+metadata: (
+	credit: "unknown",
+	category: \pads,
+	tags: [\pitched]
+)
+).add;
 
 
 
