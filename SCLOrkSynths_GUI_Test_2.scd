@@ -1,8 +1,40 @@
 
 // sketches
 
+// /*
+//
 // Document.current.dir.postln;
-// l = (Document.current.dir ++ "/*.scd").resolveRelative.pathMatch.collect({ arg path; path.basename.drop(-4) });
+// l = (Document.current.dir ++ "/SynthDefs/*").resolveRelative.pathMatch;
+// l.collect{|p| p.dirname.postln};
+//
+//
+// ~collectNames.value("drums");
+//
+// */
+
+~collectNames = { arg bank; (Document.current.dir ++ "/SynthDefs/" ++ bank.asString ++ "/*.scd").resolveRelative.pathMatch.collect({ arg path; path.asPathName.fileNameWithoutExtension }) };
+
+~banks = Dictionary.new;
+
+(
+[
+	\bass,
+	\bells,
+	\drums,
+	\guitar,
+	\keyboards,
+	\misc,
+	\organ,
+	\pads,
+	\strings,
+	\winds
+].do({ arg bank; ~banks.put(bank, ~collectNames.value(bank)) });
+)
+
+~banks.at(\drums);
+~banks.at(\winds);
+
+
 //
 // l.do{|p| p.basename.drop(-4).postln};
 
