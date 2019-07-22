@@ -31,6 +31,7 @@ var activeButton;
 var footer;
 var currentSynthText;
 
+Window.closeAll;
 
 window = Window.new(
 	name: "SCLOrkSynths",
