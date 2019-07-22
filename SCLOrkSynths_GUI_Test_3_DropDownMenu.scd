@@ -28,6 +28,8 @@ var buttonHeight = 25; //(windowHeight * 0.75) / numberOfRows;
 var buttonArray;
 // var bankNameArray = (Document.current.dir ++ "/*.scd").resolveRelative.pathMatch.collect({ arg path; path.basename.drop(-4).asSymbol });
 var activeButton;
+var footer;
+var currentSynthText;
 
 
 window = Window.new(
@@ -49,6 +51,7 @@ window.view.decorator = FlowLayout.new(
 	gap: Point.new(gap, gap)
 );
 
+// header is just the area where drop down menu sits
 header = CompositeView.new(window, Rect.new(0, 0, windowWidth - (margin * 2), 50));
 
 banksMenu = PopUpMenu.new(header, Rect.new(0, 0, 100, 25));
@@ -58,20 +61,35 @@ banksMenu.items = ~banks.collect{ |i| i.asString};
 
 banksMenu.value = ~banks.indexOf(currentBank);
 
-buttonArray = ~synthDictionary.at(currentBank).collect({ arg item, count;
+buttonArray = 50.collect({ arg count;
 	Button.new(
 		parent: window.view,
 		bounds: Point.new(buttonWidth, buttonHeight),
-)
-	// .font_(Font.new(Font.defaultSansFace, 10))
-	.states_([
-		[item.asString.basename.drop(-4), Color.black, Color.defaultArgs],
-		[item.asString.basename.drop(-4), Color.black, Color.green]
-	])
-	.action_({ arg button;
-		if(activeButton!=nil, {buttonArray[activeButton].value = 0});
-		activeButton = ~synthDictionary.indexOf(button.string.asSymbol);
-		["currently active", activeButton].postln;
-
-	})
+	)
+	.action_({ arg button; currentSynthText.string = button.string });
 });
+
+
+banksMenu.action = { arg menu;
+	["bank menu action", menu.value, menu.item].postln;
+	currentBank = menu.item; // currentBank holds a symbol, not a number
+	// clean up buttons
+	buttonArray.do({arg button;
+		button.string = " ";
+	});
+	currentBank.postln;
+	~synthDictionary.at(currentBank.asSymbol).do({arg item, count;
+		buttonArray[count].string = item.asString.basename.drop(-4)
+	});
+
+};
+
+banksMenu.valueAction = currentBank;
+
+
+footer = CompositeView.new(window, Rect.new(0, 300, windowWidth - (margin * 2), 50));
+// footer.background = Color.green(0.5, 0.2);
+
+footer.bounds.height.postln;
+
+currentSynthText = StaticText.new(footer, Rect(0, 0, footer.bounds.width, footer.bounds.height)).string_("click on a button to choose a SynthDef").background_(Color.green(0.5, 0.2)).align_(\center).font_(Font(Font.default, size: 24, bold: true)).front;
