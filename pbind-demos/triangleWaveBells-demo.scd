@@ -1,4 +1,4 @@
-Pbind(
+Pbindef(\triangleWaveBells,
 		\instrument, "triangleWaveBells",
 		\amp, Pwhite(0.1, 0.15),
 		\legato, 1.1,
@@ -8,4 +8,4 @@ Pbind(
 		\lforate, Pn(Pseries(1, 0.5, 16), inf),
 		\rq, Pn(Pseries(0.9, -0.01, 16),inf),
 		\cutoff, Pn(Pseries(60, 20, 16),inf)
-	).play;
+);

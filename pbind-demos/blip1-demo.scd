@@ -1,4 +1,4 @@
-Pbind(
+Pbindef(\blip1,
 	\instrument, "blip1",
 	\degree, Pwhite(0, 10),
 	\dur, Pn(Pseries(0.16, -0.01, 6), inf),
@@ -8,4 +8,4 @@ Pbind(
 	\att, 0.01,
 	\rel, Pstutter(6, Pseq([0.1, 0.5, 1, 3], inf)),
 	\pan, Pwhite(-1, 1.0)
-)
+);

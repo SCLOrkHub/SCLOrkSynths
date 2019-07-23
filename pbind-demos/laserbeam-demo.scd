@@ -1,4 +1,4 @@
-Pbind(
+Pbindef(\laserbeam,
 	\instrument, "laserbeam",
 	\amp, 0.2,
 	\midinote,Pseq([36, 48, 60, 72, 84], inf),

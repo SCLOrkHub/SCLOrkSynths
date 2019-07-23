@@ -1,4 +1,4 @@
-Pbind(
+Pbindef(\organDonor,
 	\instrument, "organDonor",
 	\amp, 0.1,
 	\midinote, Pseq([
@@ -40,4 +40,4 @@ Pbind(
 	], inf),
 	\rq, Pseries(0.4, -0.01),
 	\cutoff, Pn(Pseries(6000, -400, 10),inf)
-).play;
+);

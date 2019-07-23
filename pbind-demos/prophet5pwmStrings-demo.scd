@@ -1,4 +1,4 @@
-Pbind(
+Pbindef(\prophet5pwmStrings,
 	\instrument, "prophet5pwmStrings",
 	\note, Pseq([0, 3, 8, 7, 5, 8, 7, 3], inf),
 	\ctranspose, -12,

@@ -35,6 +35,7 @@
 
 ~collectPaths = { arg bank; (Document.current.dir ++ "/SynthDefs/" ++ bank.asString ++ "/*.scd").resolveRelative.pathMatch };
 
+
 // ========================================
 // A Function that takes a full path and
 // returns the filename without .scd extension
@@ -55,6 +56,8 @@
 // Populate Dictionary
 ~banks.do({ arg bank; ~synthDictionary.put(bank, ~collectPaths.value(bank)) });
 
+~currentSynth = nil; // to be set when user pushes a button to select a synth
+
 // Print pretty in Post window
 (
 ~banks.do({ arg bank;
@@ -65,3 +68,12 @@
 })
 )
 );
+
+// ========================================
+// Boot server and load all synths
+// ========================================
+
+s.waitForBoot({
+	"Booting server and loading SynthDefs...".postln;
+	~synthDictionary.do({arg entry; entry.do({ arg path; path.load; path.postln }) });
+});
