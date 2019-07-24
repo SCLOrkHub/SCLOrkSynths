@@ -1,13 +1,13 @@
-SynthDefs-for-Patterns
+SCLOrkSynths
 ======================
  
-Collection of SuperCollider SynthDefs (synth definitions) for use with Patterns
+Collection of SuperCollider SynthDefs (synth definitions).
 
-WARNING: very much a work in progress (barely started).
+I don't remember where I got some SynthDefs from. I will do my best to add credits and/or links to original synthdefs if I can. Please let me know if you know the source of an uncredited SynthDef.
 
-I don't remember where I got some SynthDefs from. I will do my best to add credits and/or links to original synthdefs if I can.
+Feel free to suggest new SynthDef for the collection.
 
-Feel free to add new SynthDefs to the collection, or suggest new ones.
+This repository was previously named SynthDefs-for-Patterns.
 
 ## Some conventions
 
@@ -33,8 +33,6 @@ BTR
 
 # 2019 UPDATE:
 
-This repository will eventually be renamed "SCLOrkSynths".
-
 Goal: Create a pool of freely available synth definitions in SuperCollider.
 
 Description: This research project aims to create new open source software synthesizers in the SuperCollider language. The new synthesizers will not only used by SCLOrk (the Santa Clara Laptop Orchestra), but also made available to the computer music community as a Quark. 
@@ -46,10 +44,6 @@ Description: This research project aims to create new open source software synth
 * Create short, compelling musical sequences using Pbind to demonstrate the potential of each Synth Definition.
 
 ## Sources
-
-### SynthDefs-for-Patterns
-Link: https://github.com/brunoruviaro/SynthDefs-for-Patterns
-Comment: This is the initial version of this project that I started 5 years ago but never finished. We can add new SynthDefs here for now; eventually we will migrate the collection into a new repository to be made into a Quark, named SCLOrkSynths.
 
 ### SynthDefPool
 Link: https://github.com/supercollider-quarks/SynthDefPool
