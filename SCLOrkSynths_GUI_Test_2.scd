@@ -1,28 +1,29 @@
+/*
+functionality
 
-// sketches
-
-// Document.current.dir.postln;
-// l = (Document.current.dir ++ "/*.scd").resolveRelative.pathMatch.collect({ arg path; path.basename.drop(-4) });
-//
-// l.do{|p| p.basename.drop(-4).postln};
-
-
-// ADD
 // button: "play demo"
 // button: "play scale"
 // button: "see code" (opens SynthDef and Pbind in new file)
+--> how to fetch (copy) entire string from an unopened document, and open a new file with it?
+
+-
+
+
+*/
+
+// ~banks.size
 
 var window;
 var gap = 5;
 var margin = 10;
-var numberOfColumns = 5;
-var numberOfRows = 10;
+var numberOfColumns = 3;
+var numberOfRows = (~banks.size / numberOfColumns).ceil;
 var windowWidth = Window.screenBounds.width / 2;
 var windowHeight = windowWidth * 0.75;
 var buttonWidth = windowWidth - (margin * 2) - (numberOfColumns * (gap - 1)) / numberOfColumns;
-var buttonHeight = 25;
+var buttonHeight = (windowHeight * 0.75) / numberOfRows;
 var buttonArray;
-var synthNameArray = (Document.current.dir ++ "/*.scd").resolveRelative.pathMatch.collect({ arg path; path.basename.drop(-4).asSymbol });
+// var bankNameArray = (Document.current.dir ++ "/*.scd").resolveRelative.pathMatch.collect({ arg path; path.basename.drop(-4).asSymbol });
 var activeButton;
 
 
