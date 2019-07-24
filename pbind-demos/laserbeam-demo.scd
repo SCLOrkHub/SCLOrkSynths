@@ -1,8 +1,8 @@
 Pbindef(\laserbeam,
 	\instrument, "laserbeam",
-	\amp, 0.2,
-	\midinote,Pseq([36, 48, 60, 72, 84], inf),
+	\amp, 0.4,
+	\midinote, Pwhite(62, 84, 1),
 	\dur, 0.5,
-	\att, Pstutter(8, Pseq([Pshuf((0.01, 0.02..0.1), 1)],inf))
+	\att, Pwhite(0.05, 0.1)
 );
 

@@ -16,4 +16,4 @@ Pdef.removeAll;
 (Document.current.dir ++ "/pbind-demos/" ++ "/*.scd").resolveRelative.pathMatch.do({ arg path; path.load });
 
 "Patterns loading...".postln;
-Pdef.all.do({arg item; item.key.postln });
+Pdef.all.do({arg item; item.quant = 0.0; item.key.postln });
