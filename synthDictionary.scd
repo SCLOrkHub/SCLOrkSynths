@@ -41,7 +41,7 @@
 // returns the filename without .scd extension
 // ========================================
 
-~getNameFromPath = { arg path; path.asPathName.fileNameWithoutExtension };
+~getNameFromPath = { arg path; PathName.new(path).fileNameWithoutExtension };
 
 // ========================================
 // A Dictionary holding all SynthDef files
