@@ -10,7 +10,7 @@ Native SuperCollider port of STK's Rhodey. This should be preferred over the Stk
 - It doesn't require sc3-plugins or a correct setting of StkGlobals.
 - It's beginner-friendly because it uses only basic UGens: SinOsc, EnvGen, Mix, Pan2, Out.
 
-Modified by Josh Mitchell and Bruno Ruviaro in July 2019
+Modified by Josh Mitchell and Bruno Ruviaro in July 2019.
 
 */
 
