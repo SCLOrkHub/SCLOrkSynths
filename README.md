@@ -25,9 +25,9 @@ SynthDefs should have the following arguments (default values encouraged but fle
 
 Miscellaneous:
 
-* use variables snd for main sound (whatever that is) and env for amplitude env. Variations as needed.
-* use doneAction: 2 to make synth free itself after note is done.
-* avoid specifying durations directly inside SynthDef (other than att and rel) -- patterns will take care of durations.
+* Use variables snd for main sound (whatever that is) and env for amplitude env. Variations as needed.
+* Use doneAction: 2 to make synth free itself after note is done.
+* Avoid specifying durations directly inside SynthDef (other than att and rel) -- patterns will take care of durations.
 
 BTR
 
