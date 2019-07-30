@@ -21,8 +21,8 @@ var banksMenu;
 var currentBank = \drums;
 var numberOfColumns = 5;
 var numberOfRows = 10;
-var windowWidth = Window.screenBounds.width / 2;
-var windowHeight = windowWidth * 0.5;
+var windowWidth = 800;
+var windowHeight = 480;
 var buttonWidth = windowWidth - (margin * 2) - (numberOfColumns * (gap - 1)) / numberOfColumns;
 var buttonHeight = 25; //(windowHeight * 0.75) / numberOfRows;
 var buttonArray;
@@ -139,7 +139,7 @@ Button.new(
 	button.value.postln;
 	if((button.value==1),
 		{
-			"I just hit play".postln;
+			// "I just hit play".postln;
 			Pdef(\spawner,
 				Pspawner({ arg sp;
 					sp.seq(Pdef(~currentSynth.asSymbol));

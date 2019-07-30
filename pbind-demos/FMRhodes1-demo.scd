@@ -13,5 +13,6 @@ Pbindef(\FMRhodes1,
     \lfoSpeed, 0.5,
     \lfoDepth, 0.4,
     \inputLevel, Pgauss(0.8, 0.1, inf),
-    \amp, 0.3
+    \amp, 0.2,
+	\strum, Pwhite(0, 0.02)
 );

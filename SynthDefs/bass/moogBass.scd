@@ -53,4 +53,10 @@ SynthDef("moogBass", {
 
 	Out.ar(out, Pan2.ar(snd, pan));
 
-}).add;
+},
+metadata: (
+	credit: "Nick Collins",
+	category: \bass,
+	tags: [\pitched, \bass]
+)
+).add;

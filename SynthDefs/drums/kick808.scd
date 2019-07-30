@@ -11,7 +11,7 @@ SynthDef("kick808", {arg out = 0, freq1 = 240, freq2 = 60, amp = 1, ringTime = 1
 },
 metadata: (
 	credit: "unknown",
-	category: \percussion,
-	tags: [\pitched]
+	category: \drums,
+	tags: [\percussion, \kick, \808]
 )
 ).add;
