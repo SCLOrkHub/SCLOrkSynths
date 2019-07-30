@@ -42,5 +42,11 @@ SynthDef(\FMRhodes1, {
     snd = Pan2.ar(snd, pan, amp);
 
     Out.ar(out, snd);
-}).add;
+},
+metadata: (
+	credit: "Nathan Ho",
+	category: \keyboards,
+	tags: [\pitched, \piano, \fm]
+)
+).add;
 
