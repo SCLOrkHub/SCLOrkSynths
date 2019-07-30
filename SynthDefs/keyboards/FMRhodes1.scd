@@ -3,6 +3,8 @@ Retrieved from: http://sccode.org/1-522
 
 FM Rhodes Synthesizer
 
+by Nathan Ho (snappizz)
+
 Native SuperCollider port of STK's Rhodey. This should be preferred over the StkInst version because:
 
 - It uses much less CPU.
@@ -10,7 +12,7 @@ Native SuperCollider port of STK's Rhodey. This should be preferred over the Stk
 - It doesn't require sc3-plugins or a correct setting of StkGlobals.
 - It's beginner-friendly because it uses only basic UGens: SinOsc, EnvGen, Mix, Pan2, Out.
 
-Modified by Josh Mitchell and Bruno Ruviaro in July 2019
+[Modified by Josh Mitchell and Bruno Ruviaro in July 2019]
 
 */
 
@@ -36,7 +38,7 @@ SynthDef(\FMRhodes1, {
     snd = Mix((osc3 * (1 - mix)) + (osc1 * mix));
   	snd = snd * (SinOsc.ar(lfoSpeed).range((1 - lfoDepth), 1));
 
-    snd = snd * EnvGen.ar(Env.asr(0, 1, 0.1), gate, doneAction: 2);
+    snd = snd * Env.asr(0, 1, 0.1).kr(gate: gate, doneAction: 2);
     snd = Pan2.ar(snd, pan, amp);
 
     Out.ar(out, snd);
