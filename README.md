@@ -28,6 +28,18 @@ Miscellaneous:
 * Use variables snd for main sound (whatever that is) and env for amplitude env. Variations as needed.
 * Use doneAction: 2 to make synth free itself after note is done.
 * Avoid specifying durations directly inside SynthDef (other than att and rel) -- patterns will take care of durations.
+* Keep any relevant comments about the SynthDef as the header of the file (use block comment)
+* Use metadata: inside the SynthDef in the following format, where "category" corresponds to the name of the SCLOrkSynths subfolder where the SynthDef is saved:
+
+```
+},
+metadata: (
+	credit: "name of author(s) of SynthDef",
+	category: \drums,
+	tags: [\percussion, \kick]
+)
+).add;
+```
 
 BTR
 
