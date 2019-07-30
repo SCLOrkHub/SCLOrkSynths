@@ -139,7 +139,7 @@ Button.new(
 	button.value.postln;
 	if((button.value==1),
 		{
-			"I just hit play".postln;
+			// "I just hit play".postln;
 			Pdef(\spawner,
 				Pspawner({ arg sp;
 					sp.seq(Pdef(~currentSynth.asSymbol));
