@@ -1,13 +1,17 @@
 /* Retrieved from
 http://sccode.org/1-5aD
-*/
 
+Kalimba based on bank of ressonators
+
+
+*/
+(
 SynthDef(\kalimba, {
-	//Kalimba based on bank of ressonators
-    |out = 0, freq = 440, amp = 0.1, mix = 0.1, relMin = 2.5, relMax = 3.5|
+	arg out = 0, freq = 440, amp = 0.1, mix = 0.1, relMin = 2.5, relMax = 3.5;
     var snd;
     // Basic tone is a SinOsc
-    snd = SinOsc.ar(freq) * EnvGen.ar(Env.perc(0.005, Rand(relMin, relMax), 1, -8), doneAction: 2);
+    snd = SinOsc.ar(freq) * Env.perc(0.005, Rand(relMin, relMax), 1, -8).kr;
+
     // The "clicking" sounds are modeled with a bank of resonators excited by enveloped pink noise
     snd = (snd * (1 - mix)) + (DynKlank.ar(`[
         // the resonant frequencies are randomized a little to add variation
@@ -20,3 +24,6 @@ SynthDef(\kalimba, {
 //By Nathan Ho aka Snappiz
 //http://sccode.org/1-51l
 }).add;
+);
+
+
