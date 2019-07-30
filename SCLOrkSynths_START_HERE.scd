@@ -6,5 +6,3 @@
 "gui.scd".loadRelative;
 
 ().play
-
-Pdef
