@@ -40,7 +40,7 @@ SynthDef(\kalimba, {
 },
 metadata: (
 	credit: "Nathan Ho aka Snappiz, http://sccode.org/1-51l",
-	category: \keyboards,
+	category: \bells,
 	tags: [\pitched]
 	)
 ).add
