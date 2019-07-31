@@ -1,4 +1,4 @@
-/* Recieved from
+/* Retrieved from
 https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/cheappiano.scd
 
 based on something posted 2008-06-17 by jeff, based on an old example by james mcc
@@ -28,11 +28,12 @@ SynthDef(\cheapPiano1, {
 
 	snd = CombL.ar(hammer, delay, delay, 50 * amp);
 	snd = HPF.ar(snd, hollowness.linlin(0, 1, 50, 1000)) * Env.perc(att, rel, amp * 4, -1).ar;
-	Limiter.ar(snd);
+	snd = Limiter.ar(snd);
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
 	credit: "based on something posted 2008-06-17 by jeff, based on an old example by james mcc",
+	category: \keyboards,
 	tags: [\casio, \piano, \pitched]
 	)
 ).add
