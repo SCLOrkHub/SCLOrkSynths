@@ -1,5 +1,5 @@
-Pbindef(\FMRhodes1,
-	\instrument, "FMRhodes1",
+Pbindef(\FMRhodes2,
+	\instrument, "FMRhodes2",
     \scale, Scale.mixolydian,
 	\ctranspose, -10,
     \legato, Pseq([0.9, 0.5, 0.5, 0.9, 0.9, 0.9, 0.9, 0.7, 1, 0.9, 1, 0.6, 0.3], inf),
@@ -13,6 +13,5 @@ Pbindef(\FMRhodes1,
     \lfoSpeed, 0.5,
     \lfoDepth, 0.4,
     \inputLevel, Pgauss(0.8, 0.1, inf),
-    \amp, 0.2,
-	\strum, Pwhite(0, 0.02)
+    \amp, 0.3
 );
