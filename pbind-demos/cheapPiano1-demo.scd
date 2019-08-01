@@ -1,4 +1,4 @@
-Pbindef(\cheapPiano1
+Pbindef(\cheapPiano1,
 	\instrument, "cheapPiano1",
     \ctranspose, -8,
     \legato, Pseq([0.9, 0.5, 0.5, 0.9, 0.5, 0.5, 0.5, 0.5, 0.9, 0.9, 1], inf),

@@ -36,4 +36,4 @@ metadata: (
 	category: \keyboards,
 	tags: [\casio, \piano, \pitched]
 	)
-).add
+).add;
