@@ -39,6 +39,8 @@ SynthDef("defaultB", {
     Out.ar(out, Pan2.ar(snd, pan))
 },
 metadata: (
+	credit: "default SuperCollider synth, modified",
 	category: \keyboards,
 	tags: [\piano, \pitched]
-).add
+)
+).add;
