@@ -1,7 +1,8 @@
 /* Retrieved from
 http://sccode.org/1-5aD
-//By Nathan Ho aka Snappiz
-//http://sccode.org/1-51l
+
+By Nathan Ho aka Snappizz
+http://sccode.org/1-51l
 
 This kalimba is based on a bank of resonators:
 The basic tone is a SinOsc, whose release is randomized a little to add variation.
@@ -14,11 +15,11 @@ Modified By Josh Mitchell and Bruno Ruviaro July 2019.
 
 SynthDef(\kalimba, {
 	arg
-	//Standard values
+	// Standard values
 	out = 0, freq = 440, amp = 0.1, att = 0.001, pan = 0,
-	//Mix control goes from 0 to 1
+	// Mix control goes from 0 to 1
 	mix = 0.1,
-	//Release controls for different parts of the sound
+	// Release controls for different parts of the sound
 	minRel = 2.5, maxRel = 3.5, clickRel = 0.01;
 
     var note, body, snd;
@@ -27,11 +28,10 @@ SynthDef(\kalimba, {
     body = DynKlank.ar(
 		            Ref.new([
                         [240 * Rand(0.9, 1.1), 2020 * Rand(0.9, 1.1), 3151 * Rand(0.9, 1.1)],
-			            //Below converts from decibels to amplitudes (0 dB = amp 1), original used .dbamp
-		        	    10.pow([-7, 0, 3] / 20),
+		        	    [-7, 0, 3].dbamp, // same as 10.pow([-7, 0, 3] / 20),
 			            [0.75, 0.04, 0.06] + clickRel
 		            ]),
-		        //Try BrownNoise, GrayNoise, etc. here, but you may need to change ring times above
+		        // Try BrownNoise, GrayNoise, etc. here, but you may need to change ring times above
 		        (PinkNoise.ar * Env.perc(att, clickRel).kr)
 	        );
     snd = (note * (1 - mix)) + (body * mix) * amp;
@@ -39,9 +39,9 @@ SynthDef(\kalimba, {
     Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
-	credit: "Nathan Ho aka Snappiz, http://sccode.org/1-51l",
+	credit: "by Nathan Ho aka Snappizz",
 	category: \bells,
-	tags: [\pitched]
+	tags: [\pitched, \kalimba]
 	)
 ).add
 
