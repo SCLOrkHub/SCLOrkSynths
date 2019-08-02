@@ -9,9 +9,12 @@ Pbindef(\FMRhodes2,
         [0, 2, 4]
 	], 1),
     \mix, 0.2,
-    \modIndex, 0.2,
-    \lfoSpeed, 0.5,
+	\fmHarmonic, Pseq([Pn(30, 10), Pn(5, inf)]),
+    \modIndex, 0.9,
+    \lfoSpeed, 9.5,
     \lfoDepth, 0.4,
+	\lfoBottom, 0.1,
+	\lfoRange, 1,
     \inputLevel, Pgauss(0.8, 0.1, inf),
     \amp, 0.3
-);
+).play;
