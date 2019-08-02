@@ -22,9 +22,10 @@ SynthDef(\kalimba, {
 	// Release controls for different parts of the sound
 	minRel = 2.5, maxRel = 3.5, clickRel = 0.01;
 
-    var note, body, snd;
+    var note, env, body, snd;
 
-    note = SinOsc.ar(freq) * Env.perc(att * 3, Rand(minRel, maxRel), 1, -8).kr;
+	env = Env.perc(att * 3, Rand(minRel, maxRel), 1, -8).kr(doneAction: 2);
+    note = SinOsc.ar(freq);
     body = DynKlank.ar(
 		            Ref.new([
                         [240 * Rand(0.9, 1.1), 2020 * Rand(0.9, 1.1), 3151 * Rand(0.9, 1.1)],
