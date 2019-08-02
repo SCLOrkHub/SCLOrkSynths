@@ -22,27 +22,28 @@ SynthDef(\kalimba, {
 	// Release controls for different parts of the sound
 	minRel = 2.5, maxRel = 3.5, clickRel = 0.01;
 
-    var note, env, body, snd;
+	var note, env, body, snd;
 
 	env = Env.perc(att * 3, Rand(minRel, maxRel), 1, -8).kr(doneAction: 2);
-    note = SinOsc.ar(freq);
-    body = DynKlank.ar(
-		            Ref.new([
-                        [240 * Rand(0.9, 1.1), 2020 * Rand(0.9, 1.1), 3151 * Rand(0.9, 1.1)],
-		        	    [-7, 0, 3].dbamp, // same as 10.pow([-7, 0, 3] / 20),
-			            [0.75, 0.04, 0.06] + clickRel
-		            ]),
-		        // Try BrownNoise, GrayNoise, etc. here, but you may need to change ring times above
-		        (PinkNoise.ar * Env.perc(att, clickRel).kr)
-	        );
-    snd = (note * (1 - mix)) + (body * mix) * amp;
+	note = SinOsc.ar(freq) * env;
+	body = DynKlank.ar(
+		specificationsArrayRef:
+		Ref.new([
+			[240 * ExpRand(0.9, 1.1), 2020 * ExpRand(0.9, 1.1), 3151 * ExpRand(0.9, 1.1)],
+			[-7, 0, 3].dbamp, // same as 10.pow([-7, 0, 3] / 20),
+			[0.75, 0.04, 0.06] + clickRel
+		]),
+		input:
+		// Try BrownNoise, GrayNoise, etc. here, but you may need to change ring times above
+		(PinkNoise.ar * Env.perc(att, clickRel).kr)
+	);
+	snd = (note * (1 - mix)) + (body * mix) * amp;
 
-    Out.ar(out, Pan2.ar(snd, pan));
+	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
 	credit: "by Nathan Ho aka Snappizz",
 	category: \bells,
 	tags: [\pitched, \kalimba]
-	)
-).add
-
+)
+).add;
