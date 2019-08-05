@@ -12,8 +12,24 @@
 // Clear it up
 Pdef.removeAll;
 
-// Load all files
-(Document.current.dir ++ "/pbind-demos/*.scd").resolveRelative.pathMatch.do({ arg path; path.load });
+(
+// Load all files, add paths to pathDictionary
+(Document.current.dir ++ "/pbind-demos/*.scd").resolveRelative.pathMatch.do({ arg path;
 
-"Patterns loading...".postln;
+	var fileName = ~getNameFromPath.value(path).drop(-5); // drop "-demo" from end
+
+	// Add paths to dictionary
+	~pathDictionary[fileName.asSymbol].add(\patternPath -> path);
+
+	// Load files
+	path.load;
+
+
+
+
+});
+);
+
 Pdef.all.do({arg item; item.quant = 0.0; item.key.postln });
+
+"Patterns loaded";

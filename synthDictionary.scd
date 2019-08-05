@@ -77,3 +77,25 @@ s.waitForBoot({
 	"Booting server and loading SynthDefs...".postln;
 	~synthDictionary.do({arg entry; entry.do({ arg path; path.load; path.postln }) });
 });
+
+
+
+
+// ========================================
+// pathDictionary
+// keys are synthDef names
+// values are a Dictionary holding two things: synthDef path and pattern path
+// pattern paths will be added in the patternDictionary.scd file
+// ========================================
+(
+~pathDictionary = Dictionary.new;
+
+~synthDictionary.do({ arg array;
+	array.do({ arg path;
+		var synthName = ~getNameFromPath.value(path);
+		~pathDictionary.put(synthName.asSymbol, Dictionary.newFrom([\synthPath, path]))
+		// path.postln
+
+	})
+})
+);

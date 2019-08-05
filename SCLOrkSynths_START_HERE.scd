@@ -5,6 +5,8 @@
 
 "gui.scd".loadRelative;
 
-().play// test sound
+().play; // test sound
 
 s.plotTree; // see if your nodes are freeing themselves properly
+
+
