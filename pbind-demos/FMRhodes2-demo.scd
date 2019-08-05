@@ -17,4 +17,4 @@ Pbindef(\FMRhodes2,
 	\lfoRange, 1,
     \inputLevel, Pgauss(0.8, 0.1, inf),
     \amp, 0.3
-).play;
+);
