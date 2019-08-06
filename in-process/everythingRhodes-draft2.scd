@@ -12,16 +12,16 @@ LFO added by Josh Mitchell 8/19
 SynthDef(\everythingrhodes, {
 	arg
 	//Standard Definitions
-	out = 0, freq = 440, amp = 0.1, gate = 1, att = 0.001, dec = 1, sus = 0.8, rel = 3, pan = 0,
+	out = 0, freq = 440, amp = 0.1, att = 0.001, rel = 3, pan = 0,
 	//Other Controls
-	cutoff = 2000, rq = 0.5, harmonic = 2.pow(33.5/12),
+	filterRange = 2000, rq = 0.5, harmonic = 2.pow(33.5/12),
 	//These Range from 0 to 1
 	width = 0.2, mix = 0.7;
 
     //Electric Piano
 	var snd, env, lfo;
 
-	env = Env.adsr(att, dec, sus, rel).kr(gate: gate, doneAction: 2);
+	env = Env.perc(att, rel).kr(doneAction: 2); //Original used an ADSR envelope.
 
 	snd = Pulse.ar(
 	        	freq: freq * [1, harmonic], //Original used 33.5.midiratio here, which is just below the 7th harmonic.
@@ -30,7 +30,7 @@ SynthDef(\everythingrhodes, {
             );
 	snd  = BLowPass4.ar(
 		        in: snd,
-		        freq: (cutoff * (env.squared)) + (200 + freq),
+		        freq: (filterRange * env) + (2 * freq),
 		        rq: rq
 		    );
     snd = Mix.ar(snd) * env * amp;
@@ -68,7 +68,7 @@ SynthDef(\everythingrhodes2, {
             );
 	snd  = BLowPass4.ar(
 		        in: snd,
-		        freq: (cutoffharmonic * (env.squared)) * (freq),
+		        freq: (cutoffharmonic * (env.squared) * freq) + 60,
 		        rq: rq
 		    );
     snd = Mix.ar(snd) * env * amp;
@@ -86,10 +86,10 @@ metadata: (
 (
 Pbind(
 	\instrument, "everythingrhodes",
-    \ctranspose, -18,
-    \legato, Pwhite(0.1, 0.8, inf),
-	\dur, 3/4,
-    \degree, Pseq([0, 1, 2, 3, 4, 5, 6, 7, 6, 5, 4, 3, 2, 1, 0], 1),
-	\amp, 1,
+	\ctranspose, 7,
+	\strum, 0.05,
+	\dur, Pseq([1, 0.5, 1.5, 0.25, 0.25, 0.5, 1, 2], 1),
+	\degree, Pseq([[-1, 2, 4], 5, [1, 4, 6], 7, 8, [0, 4, 6], 7, 0], 1),
+	\amp, 0.5,
 ).play;
 )
