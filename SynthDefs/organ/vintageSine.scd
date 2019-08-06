@@ -12,7 +12,7 @@ SynthDef(\vintageSine, {
 	//Standard Definitions
 	amp = 0.2, freq = 440, pan = 0, att = 0.001, sus = 1, rel = 0.5, gate = 1, out = 0,
 	//Noise Arguments (mainsDepth is 0 to 1)
-	noiseAmp = 0.5, mainsDepth = 0.1, mainsHz = 50,
+	noiseAmp = 0.2, mainsDepth = 0.1, mainsHz = 50,
 	//Vibrato Arguments
 	vrate = 2, vdepth = 0.002, vdelay = 0.1, vonset = 0, vrateVariation = 0.1, vdepthVariation = 0.1;
 
