@@ -1,12 +1,39 @@
 // synthDictionary.scd
 //
-// Defines a Dictionary to hold all paths to *.scd SynthDef files
-// Files are organized by bank names (corresponding to subfolders)
+// Creates a Dictionary holding relevant info about each synth:
+// Dictionary[
+//   (synthName1 ->
+//      Dictionary[
+//        (bank -> bank),
+//        (synthPath -> path),
+//        (patternPath -> path)
+//       ],
+//     ),
+//  \synthName2,
+//      [
+//        \bank, <bank>,
+//        \synthPath, <path>,
+//        \patternPath, <path>
+//       ]
+// ... etc
+//  ]
+//
+//
+//
+
+
+// this is the single big dictionary
+~synthDictionary = Dictionary.new;
 
 
 // ========================================
 // An array with all bank names as Symbols
 // ========================================
+
+// should I try to simplify this step?
+// i.e. either extract bank names directly from folder names;
+// or from SynthDef metadata
+
 (
 ~banks = [
 	// All banks (subfolders of SynthDefs/ folder) area listed here.
@@ -23,6 +50,55 @@
 	\winds
 ]
 );
+
+
+// ========================================
+// POPULATE SYNTH DICTIONARY
+// ========================================
+
+(
+~banks.do({ arg bank;
+
+	// for every subfolder we get an array of paths to scd files:
+	var synthPathsArray = (Document.current.dir ++ "/SynthDefs/" ++ bank.asString ++ "/*.scd").resolveRelative.pathMatch;
+
+	// iterate over array to extract synthNames;
+	// populate inner Dictionaries, one for each synth.
+
+	synthPathsArray.do({ arg path;
+		var synthName = PathName.new(path).fileNameWithoutExtension;
+		~synthDictionary.add(synthName.asSymbol -> Dictionary.newFrom([\synthPath, path, \bank, bank]));
+	});
+});
+);
+
+
+(
+// Now look into pbinds folder and add those paths to synthDictionary
+
+(Document.current.dir ++ "/pbind-demos/*.scd").resolveRelative.pathMatch.do({ arg path;
+
+	var synthName = PathName.new(path).fileNameWithoutExtension.drop(-5); // drop "-demo" from end of filename
+
+	// Add paths to dictionary
+	~synthDictionary[synthName.asSymbol].add(\patternPath -> path);
+
+});
+);
+
+// Test it:
+/*
+~synthDictionary[\kalimba][\bank];
+~synthDictionary[\kalimba][\patternPath];
+~synthDictionary[\kalimba][\synthPath];
+
+~synthDictionary[\cheapPiano1][\bank];
+~synthDictionary[\cheapPiano1][\patternPath];
+~synthDictionary[\cheapPiano1][\synthPath];
+*/
+
+
+
 
 // ========================================
 // A Function that collects all paths
