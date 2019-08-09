@@ -11,7 +11,7 @@ functionality
 
 */
 
-// ~banks.size
+
 
 var window;
 var header;
@@ -30,6 +30,7 @@ var buttonArray;
 var activeButton;
 var footer1, footer2;
 var currentSynthText;
+var banks = PathName.new(Document.current.dir +/+ "SynthDefs").folders.collect({ arg p; p.folderName.asSymbol});
 
 Window.closeAll;
 
@@ -68,8 +69,9 @@ banksMenu = EZPopUpMenu.new(
 	parentView: header,
 	bounds: Rect.new(0, 10, 185, 30),
 	label: "bank: ",
-	items: ~banks.collect{ |i| i.asSymbol},
+	items: banks,
 	globalAction: { arg menu;
+		var count = 0;
 		["bank menu action", menu.value, menu.item].postln;
 		currentBank = menu.item; // currentBank holds a symbol, not a number
 		// clean up buttons
@@ -77,14 +79,34 @@ banksMenu = EZPopUpMenu.new(
 			button.string = " ";
 		});
 		currentBank.postln;
+
+		// kind of works, but not alphabetical -- fix that later
+		~synthDictionary.keysValuesDo({ arg synthName, synthDic;
+			var indexDownByColumn = count % numberOfRows * numberOfColumns + count.div(numberOfRows);
+
+			synthName.postln;
+			if(synthDic[\bank].asSymbol===currentBank.asSymbol, {
+				["synthBank", synthDic[\bank]].postln;
+				count = count + 1;
+				count.postln;
+				buttonArray[indexDownByColumn].string = synthName.asString;
+
+		}) });
+
+
+		/*
 		~synthDictionary.at(currentBank.asSymbol).do({arg path, count;
 			var indexDownByColumn = count % numberOfRows * numberOfColumns + count.div(numberOfRows);
 			// [path.asString.basename, count].postln;
 			buttonArray[indexDownByColumn].string = path.asString.basename.drop(-4)
 		});
+		*/
+
+
+
 
 	},
-	initVal: ~banks.indexOf(currentBank.asSymbol),
+	initVal: banks.indexOf(currentBank.asSymbol),
 	initAction: false, // because buttonArray does not exist yet
 	labelWidth: 50
 );
