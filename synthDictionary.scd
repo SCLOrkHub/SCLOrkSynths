@@ -1,101 +1,97 @@
 // synthDictionary.scd
 //
-// Defines a Dictionary to hold all paths to *.scd SynthDef files
-// Files are organized by bank names (corresponding to subfolders)
+// Creates a Dictionary of Dictionaries holding relevant info about each synth:
+// Dictionary[
+//   (synthName1 ->
+//      Dictionary[
+//        (bank -> bank),
+//        (synthPath -> path),
+//        (patternPath -> path)
+//       ],
+//     ),
+// (synthName2 ->
+//      Dictionary[
+//        (bank -> bank),
+//        (synthPath -> path),
+//        (patternPath -> path)
+//       ],
+//     ),
+// ... etc
+//  ]
+//
+//
+//
 
+// list of bank PathNames -- one for each bank folder
+var bankPathsArray = PathName.new(Document.current.dir +/+ "SynthDefs").folders;
 
-// ========================================
-// An array with all bank names as Symbols
-// ========================================
-(
-~banks = [
-	// All banks (subfolders of SynthDefs/ folder) area listed here.
-	// When adding a new bank (subfolder), add entry manually here.
-	\bass,
-	\bells,
-	\drums,
-	\guitar,
-	\keyboards,
-	\misc,
-	\organ,
-	\pads,
-	\strings,
-	\winds
-]
-);
+// list of pattern PathNames -- one for each pbind file
+var patternPathsArray = PathName.new(Document.current.dir +/+ "pbind-demos").files;
 
-// ========================================
-// A Function that collects all paths
-// inside a bank folder. Function takes bank
-// name as argument. Bank name should match folder
-// name. Banks are subfolders of SynthDefs folder.
-// SynthDef files are saved inside each bank subfolder.
-// Function returns an Array of paths.
-// ========================================
-
-~collectPaths = { arg bank; (Document.current.dir ++ "/SynthDefs/" ++ bank.asString ++ "/*.scd").resolveRelative.pathMatch };
-
-
-// ========================================
-// A Function that takes a full path and
-// returns the filename without .scd extension
-// ========================================
-
-~getNameFromPath = { arg path; PathName.new(path).fileNameWithoutExtension };
-
-// ========================================
-// A Dictionary holding all SynthDef files
-// (*.scd) paths organized by banks.
-// Keys are bank names. Values are array of paths.
-// ========================================
-
-(
-// Create empty Dictionary
+// this is the single big dictionary
 ~synthDictionary = Dictionary.new;
 
-// Populate Dictionary
-~banks.do({ arg bank; ~synthDictionary.put(bank, ~collectPaths.value(bank)) });
+// iterate through list of bank PathNames
+bankPathsArray.do({ arg bankPath;
+	var bankName = bankPath.folderName;
 
-~currentSynth = nil; // to be set when user pushes a button to select a synth
+	// iterate over array of file Paths in bankPath to
+	// populate inner Dictionaries, one for each synth.
 
-// Print pretty in Post window
-(
-~banks.do({ arg bank;
-	bank.asString.toUpper.postln;
-	~synthDictionary[bank].do({ arg p;
-		("  " ++ ~getNameFromPath.value(p)).postln;
+	bankPath.files.do({ arg synthPath;
+		var synthName = synthPath.fileNameWithoutExtension.asSymbol;
+		var patternPath;
+
+		// find path for the corresponding pattern
+		patternPathsArray.do({ arg p;
+			var pName = p.fileNameWithoutExtension.drop(-5).asSymbol;
+			if(pName === synthName, { patternPath = p.fullPath });
+		});
+
+		// add everything in:
+		~synthDictionary.add(
+			synthName -> Dictionary.newFrom(
+				[
+					\synthPath, synthPath.fullPath,
+					\bank, bankPath.folderName,
+					\patternPath, patternPath
+				]
+			)
+		)
 	});
-})
-)
-);
+});
 
-// ========================================
-// Boot server and load all synths
-// ========================================
+
+// LOAD all SynthDefs and Pbindefs:
 
 s.waitForBoot({
-	"Booting server and loading SynthDefs...".postln;
-	~synthDictionary.do({arg entry; entry.do({ arg path; path.load; path.postln }) });
+	~synthDictionary.keysValuesDo({ arg synthName, synthDic;
+		synthDic[\patternPath].postln;
+		synthDic[\patternPath].asString.load;
+		synthDic[\synthPath].postln;
+		synthDic[\synthPath].asString.load;
+	});
+
+
+	"synthDictionary was created.".postln;
+	"all SynthDefs and Pbindefs were loaded".postln;
+	" "
 });
 
 
 
 
-// ========================================
-// pathDictionary
-// keys are synthDef names
-// values are a Dictionary holding two things: synthDef path and pattern path
-// pattern paths will be added in the patternDictionary.scd file
-// ========================================
-(
-~pathDictionary = Dictionary.new;
 
-~synthDictionary.do({ arg array;
-	array.do({ arg path;
-		var synthName = ~getNameFromPath.value(path);
-		~pathDictionary.put(synthName.asSymbol, Dictionary.newFrom([\synthPath, path]))
-		// path.postln
+// Test it:
+/*
+~synthDictionary[\kalimba][\bank];
+~synthDictionary[\kalimba][\patternPath];
+~synthDictionary[\kalimba][\synthPath];
 
-	})
-})
-);
+~synthDictionary[\cheapPiano1][\bank];
+~synthDictionary[\cheapPiano1][\patternPath];
+~synthDictionary[\cheapPiano1][\synthPath];
+
+
+~synthDictionary.keysValuesDo({ arg key, value; key.postln; value.keys.postln });
+*/
