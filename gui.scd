@@ -72,7 +72,7 @@ banksMenu = EZPopUpMenu.new(
 	items: banks,
 	globalAction: { arg menu;
 		var count = 0;
-		["bank menu action", menu.value, menu.item].postln;
+		// ["bank menu action", menu.value, menu.item].postln;
 		currentBank = menu.item; // currentBank holds a symbol, not a number
 		// clean up buttons
 		buttonArray.do({arg button;
@@ -81,30 +81,19 @@ banksMenu = EZPopUpMenu.new(
 		currentBank.postln;
 
 		// kind of works, but not alphabetical -- fix that later
-		~synthDictionary.keysValuesDo({ arg synthName, synthDic;
+		~synthDictionary.keys.asArray.sort.do({ arg synthName;
+			var synthDic = ~synthDictionary[synthName.asSymbol];
 			var indexDownByColumn = count % numberOfRows * numberOfColumns + count.div(numberOfRows);
 
-			synthName.postln;
-			if(synthDic[\bank].asSymbol===currentBank.asSymbol, {
-				["synthBank", synthDic[\bank]].postln;
-				count = count + 1;
-				count.postln;
-				buttonArray[indexDownByColumn].string = synthName.asString;
+			// synthName.postln;
 
-		}) });
-
-
-		/*
-		~synthDictionary.at(currentBank.asSymbol).do({arg path, count;
-			var indexDownByColumn = count % numberOfRows * numberOfColumns + count.div(numberOfRows);
-			// [path.asString.basename, count].postln;
-			buttonArray[indexDownByColumn].string = path.asString.basename.drop(-4)
+			if(synthDic[\bank].asSymbol===currentBank.asSymbol,
+				{
+					buttonArray[indexDownByColumn].string = synthName.asString;
+					count = count + 1;
+				}
+			)
 		});
-		*/
-
-
-
-
 	},
 	initVal: banks.indexOf(currentBank.asSymbol),
 	initAction: false, // because buttonArray does not exist yet
@@ -131,7 +120,7 @@ banksMenu.valueAction = currentBank;
 footer1 = CompositeView.new(window, Rect.new(0, 300, windowWidth - (margin * 2), 50));
 // footer1.background = Color.green(0.5, 0.2);
 
-footer1.bounds.height.postln;
+// footer1.bounds.height.postln;
 
 currentSynthText = StaticText.new(
 	parent: footer1,
@@ -185,7 +174,7 @@ Button.new(
 ])
 .font_(Font(Font.default.name, 18))
 .action_({ arg button;
-	button.value.postln;
+	// button.value.postln;
 	if((button.value==1),
 		{
 			Pdef(\spawner,
@@ -220,8 +209,8 @@ Button.new(
 		{
 			var sPath, pPath;
 			var sString, pString;
-			sPath = ~pathDictionary[~currentSynth.asSymbol][\synthPath];
-			pPath = ~pathDictionary[~currentSynth.asSymbol][\patternPath];
+			sPath = ~synthDictionary[~currentSynth.asSymbol][\synthPath];
+			pPath = ~synthDictionary[~currentSynth.asSymbol][\patternPath];
 			sString = String.readNew(File.new(sPath, "r"));
 			pString = String.readNew(File.new(pPath, "r"));
 			pString = if(pString.last.ascii == ";".last.ascii, { pString = pString.drop(-1) } );

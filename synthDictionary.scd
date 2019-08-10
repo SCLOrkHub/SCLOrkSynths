@@ -22,29 +22,14 @@
 //
 //
 
+// list of bank PathNames -- one for each bank folder
+var bankPathsArray = PathName.new(Document.current.dir +/+ "SynthDefs").folders;
 
-// ========================================
-// CREATE SYNTH DICTIONARY
-// ========================================
+// list of pattern PathNames -- one for each pbind file
+var patternPathsArray = PathName.new(Document.current.dir +/+ "pbind-demos").files;
 
 // this is the single big dictionary
 ~synthDictionary = Dictionary.new;
-
-// ========================================
-// POPULATE SYNTH DICTIONARY
-// ========================================
-
-
-a = PathName.new(Document.current.dir +/+ "pbind-demos").files;
-
-a.do({ arg p; p = p.fileNameWithoutExtension.drop(-5); if(p.asSymbol === \hihat1, {"wow".postln}, {"-".postln}) })
-
-(
-// list of PathNames, one for each bank folder
-var bankPathsArray = PathName.new(Document.current.dir +/+ "SynthDefs").folders;
-
-// list of PathNames, one for each pbind file
-var patternPathsArray = PathName.new(Document.current.dir +/+ "pbind-demos").files;
 
 // iterate through list of bank PathNames
 bankPathsArray.do({ arg bankPath;
@@ -75,7 +60,24 @@ bankPathsArray.do({ arg bankPath;
 		)
 	});
 });
-);
+
+
+// LOAD all SynthDefs and Pbindefs:
+
+s.waitForBoot({
+	~synthDictionary.keysValuesDo({ arg synthName, synthDic;
+		synthDic[\patternPath].postln;
+		synthDic[\patternPath].asString.load;
+		synthDic[\synthPath].postln;
+		synthDic[\synthPath].asString.load;
+	});
+
+
+	"synthDictionary was created.".postln;
+	"all SynthDefs and Pbindefs were loaded".postln;
+	" "
+});
+
 
 
 
