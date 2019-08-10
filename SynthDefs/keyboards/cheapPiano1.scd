@@ -13,7 +13,9 @@ SynthDef(\cheapPiano1, {
 	//These range from 0 to 1
 	tone = 0.25, hollowness = 0;
 
-	var hammer, snd, delay, tonefreq;
+	var hammer, snd, delay, tonefreq, env;
+
+	env = Env.perc(att, rel, amp * 4, -1).ar(doneAction: 2);
 
 	// Delay line times: freq, freq - 4 cents, freq + 3 cents. In the original this was done by converting freq to midi.
 	delay = (1 / (freq * [2.pow(-0.04/12), 1, 2.pow(0.03/12)]));
@@ -27,7 +29,8 @@ SynthDef(\cheapPiano1, {
 	); //Try LFNoise1, LFNoise0, or even LFClipNoise above for a slightly grainier sound.
 
 	snd = CombL.ar(hammer, delay, delay, 50 * amp);
-	snd = HPF.ar(snd, hollowness.linlin(0, 1, 50, 1000)) * Env.perc(att, rel, amp * 4, -1).ar;
+	snd = HPF.ar(snd, hollowness.linlin(0, 1, 50, 1000));
+	snd = snd * env;
 	snd = Limiter.ar(snd);
 	Out.ar(out, Pan2.ar(snd, pan));
 },
