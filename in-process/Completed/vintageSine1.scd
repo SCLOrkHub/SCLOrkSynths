@@ -7,25 +7,25 @@ Crude simulation of old sinusoidal generators - with vibrato and high noise floo
 Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-SynthDef(\vintageSine2, {
+SynthDef(\vintageSine, {
 	arg
 	//Standard Definitions
 	amp = 0.2, freq = 440, pan = 0, att = 0.001, sus = 1, rel = 0.5, gate = 1, out = 0,
 	//Noise Arguments (mainsDepth is 0 to 1)
-	noiseAmp = 0.175, mainsDepth = 0.1, mainsHz = 50,
-	//Sine Arguments
-	vrate = 2, vdepth = 0.002, vdelay = 0.1, vonset = 0, vrateVariation = 0.1, vdepthVariation = 0.1, triClip = 0.825;
+	noiseAmp = 0.2, mainsDepth = 0.1, mainsHz = 50,
+	//Vibrato Arguments
+	vrate = 2, vdepth = 0.002, vdelay = 0.1, vonset = 0, vrateVariation = 0.1, vdepthVariation = 0.1;
 
 	var noise, env, snd, vibrato;
 
 	env = Env.asr(att, amp, rel, curve: \lin).kr(gate: gate, doneAction: 2);
 
-	//noise = PinkNoise.ar(noiseAmp);
+	noise = PinkNoise.ar(noiseAmp);
 
-	noise = PinkNoise.ar(noiseAmp * LFPar.ar(mainsHz * 2).range((1 - mainsDepth), 1));
-	noise = noise + LFPar.ar(freq: mainsHz, mul: noiseAmp/8);
+	//noise = PinkNoise.ar(noiseAmp * LFPar.ar(mainsHz * 2).range((1 - mainsDepth), 1));
+	//noise = noise + LFPar.ar(freq: mainsHz, mul: noiseAmp/8);
 
-	/*vibrato = Vibrato.kr(
+	vibrato = Vibrato.kr(
 		            freq: DC.kr(freq),
 		            rate: DC.kr(vrate),
 	            	depth: DC.kr(vdepth),
@@ -33,12 +33,14 @@ SynthDef(\vintageSine2, {
 	            	onset: DC.kr(vonset),
 	            	rateVariation: DC.kr(vrateVariation),
 	            	depthVariation: DC.kr(vdepthVariation)
-	            ); */
+	            );
 
-	vibrato = freq * LFNoise2.ar(vrate).range(1/(1 + vdepth), (1 + vdepth));
+	//vibrato = freq * LFNoise2.ar(vrate).range(1/(1 + vdepth), (1 + vdepth));
 
-	snd = Clip.ar(LFTri.ar(vibrato), -1 * triClip, triClip).softclip;
+	snd = LFPar.ar(vibrato);
+	snd = LPF.ar(snd, freq * 4);
 	snd = (snd + noise) * env;
+
 	Out.ar(out, Pan2.ar(snd, pan));
 
 },
