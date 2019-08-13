@@ -1,37 +1,41 @@
 /*
-A SynthDef Draft by Josh Mitchell, 8/19.
+A SynthDef by Josh Mitchell, 8/19.
 */
 
 (
 SynthDef("steelDrum", {
-	arg freq = 440, amp = 0.1, out = 0, pan = 0, att = 0.01, dec = 1, curve = -8;
+	arg freq = 440, amp = 0.1, out = 0, pan = 0, att = 0.01, dec = 1.5, curve = -6, filterHarmonic = 8;
 
 	var resFreqArray, resAmpArray, resDecArray, enva, envb, envc, snda, sndb, sndc, snd;
 
-	resFreqArray = [2, 2.98, 4.75, 6.21, 9, 9.15, 11.87]; //Emphasises 5ths and 9ths
-	resAmpArray = Array.rand(7, 0.05, 1.00);
-	resDecArray = Array.rand(7, 0.25, 1.5);
+	//Arrays for the bank of resonators, mostly harmonics near 5ths and 9ths, and random amplitudes:
+	resFreqArray = [2, 2.98, 4.75, 6.21, 9, 9.15, 11.87];
+	resAmpArray = [0.5, 0.38, 0.21, 0.15, 0.17, 0.13, 0.05];
+	resDecArray = [0.86, 0.72, 0.37, 0.55, 0.32, 0.21, 0.16];
 
-	enva = Env.pairs([[0, 0], [att, 1], [(att + dec), 0]], curve).kr; //Env.pairs used to emulate the "bloom" of a note.
-	envb = Env.pairs([[0, 0], [(att * 5), 0.2], [(att * 6), 0.75], [((att * 6) + dec), 0]], curve).kr;
-	envc = Env.pairs([[0, 0], [(att * 5), 0.1], [(att * 10), 0.5], [((att * 10) + (dec / 2)), 0]], curve).kr;
+	//Custom envelope shapes attempting to capture the aparrent "bloom" of a note:
+	enva = Env.pairs([[0, 0], [att, 1], [(att + dec), 0]], curve).kr;
+	envb = Env.pairs([[0, 0], [(att * 5), 0.25], [(att * 6), 0.75], [((att * 6) + (dec / 2)), 0]], curve).kr;
+	envc = Env.pairs([[0, 0], [(att * 3), 0.25], [(att * 7), 0.5], [((att * 8) + (dec / 2.5)), 0]], curve).kr;
 
-	snda = LFPar.ar(freq: freq, mul: enva); //Will possibly use SinOsc instead of LFPar?
-	sndb = LFPar.ar(freq: freq * 2.015, mul: envb);
+	//Fundamental, octave up, and a bank of enharmonic resonators excited by a metalic sound:
+	snda = SinOsc.ar(freq: freq, mul: enva);
+	sndb = SinOsc.ar(freq: freq * 2.015, mul: envb);
 	sndc = DynKlank.ar(
 		specificationsArrayRef:
 		    Ref.new([
 		    	resFreqArray * freq,
-		    	resAmpArray * amp,
+		    	resAmpArray,
 			    resDecArray * dec
 		    ]),
 		input:
-		LPF.ar(CombN.ar(PinkNoise.ar(1), 1/freq, 1/freq, -1, envc), freq * 12) //Creates a metalic sound to give DynKlank
+		LPF.ar(HPF.ar(CombN.ar(PinkNoise.ar(1), 1/freq, 1/freq, -1, envc), freq * 2), freq * filterHarmonic)
 	);
 
-	snd = Mix.ar([snda, sndb, sndc]) * amp;
-	snd = Limiter.ar(snd); //Just in case I mess up while writing the SynthDef
+	//Output stages with a tiny bit of compression to smooth things out:
 
+	snd = Mix.ar([snda, sndb, sndc]) * (amp / 3);
+	snd = Limiter.ar(snd, amp);
 	DetectSilence.ar(in: snd, amp: 0.0001, time: 0.5, doneAction: 2);
 	Out.ar(out, Pan2.ar(snd, pan));
 
@@ -47,14 +51,13 @@ metadata: (
 (
 Pbind(
 	\instrument, "steelDrum",
-	\ctranspose, -8,
-    \strum, 0.075,
-	\curve, -6,
+	\ctranspose, 0,
 	\beatFreq, 9,
-	\dur, Pwhite(0.25, 0.3, inf),
-	\note, Pseq([Pseq([0, 11, 7], 4), Pseq([3, 14, 10], 2), 2, 6, 7, 6, [0, 7, 11]], 1),
-	\amp, Pseq([Pseq([0.7, 0.3, 0.7, 0.7, 0.3, 0.3], 3), 0.7, 0.3, 0.7, 0.3, 0.5], 1) * 0.5,
+	\dur, Pseq([Pn(1/6, 3), Pn(1/3, 2), 1/6, Pn(1/3, 4), Pn(1/6, 3), Pn(1/3, 2), 1/6, Pn(1/3, 2), 1], 1) * 5,
+	\degree, Pseq([2, 4, 7, 9, 9, 4, 8, 10, 9, 7, 0, 2, 4, 7, 7, 1, 6, 8, 7], 1),
+	\amp, 0.5,
 ).play;
 )
+Impulse
 
 FreqScope.new;

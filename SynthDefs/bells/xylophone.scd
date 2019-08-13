@@ -8,23 +8,21 @@ http://sccode.org/1-5ay#c835
 Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-SynthDef(\glockenspiel, {
-	arg freq = 440, amp = 0.01, pan = 0, out = 0, att = 0.001, rel = 6, exciterRel = 0.05;
+SynthDef(\xylophone, {
+	arg freq = 440, amp = 0.01, pan = 0, out = 0, att = 0.001, rel = 2, exciterRel = 0.05;
 
-	var env, snd, exciter;
+	var env, snd;
 
 	env = Env.perc(att, exciterRel, 0.25).kr;
-
-	exciter = WhiteNoise.ar(env);
 
 	snd = DynKlank.ar(
 		specificationsArrayRef:
 	        	Ref.new([
-	        		[1, 2, 2.803, 3.871, 5.074, 7.81, 10.948, 14.421],   // harmonics
-			        [1, 0.044, 0.891, 0.0891, 0.794, 0.1, 0.281, 0.079], // amplitudes
-		        	[1, 0.205, 1, 0.196, 0.339, 0.047, 0.058, 0.047]     // ring times
+	        		[1, 3, 3.971, 5.024, 5.903, 7.13, 8.91],   // harmonics
+			        [1, 0.95, 0.0891,, 0.65, 0.794, 0.53, 0.1], // amplitudes
+		        	[1, 0.593, 0.19, 0.16, 0.26, 0.02, 0.05]     // ring times
 		        ]),
-		input: exciter,
+		input: Impulse.ar(0),
 		freqscale: freq,
 		decayscale: rel
 	);
