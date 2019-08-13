@@ -1,7 +1,7 @@
 /* Retrieved from
 http://sccode.org/1-5aD
 
-Glockenspiel, xylophone, and bell_tubular, are all based on a very similar structure.
+Glockenspiel, xylophone, and tubularBell are all based on a very similar structure.
 By nicolaariutti and edited by Zé Craum
 http://sccode.org/1-5ay#c835
 
@@ -9,7 +9,7 @@ Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
 SynthDef(\tubularBell, {
-	arg freq = 440, amp = 0.1, pan = 0, out = 0, att = 0.007, rel = 9, exciterRel = 0.05;
+	arg freq = 440, amp = 0.1, pan = 0, out = 0, att = 0.005, rel = 9, exciterRel = 0.05;
 
 	var env, snd, exciter;
 
@@ -29,12 +29,15 @@ SynthDef(\tubularBell, {
 		decayscale: rel
 	);
 
+	snd = LPF.ar(snd, freq * 9.5);
+
 	DetectSilence.ar(
 		        in: snd,
 		        amp: 0.001,
 		        time: 0.5,
 		        doneAction: 2
 		    );
+
 	Out.ar(out, Pan2.ar(snd, pan, amp));
 },
 metadata: (

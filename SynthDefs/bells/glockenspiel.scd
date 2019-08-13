@@ -1,7 +1,7 @@
 /* Retrieved from
 http://sccode.org/1-5aD
 
-Glockenspiel, xylophone, and bell_tubular, are all based on a very similar structure.
+Glockenspiel, xylophone, and tubularBell are all based on a very similar structure.
 By nicolaariutti and edited by Zé Craum
 http://sccode.org/1-5ay#c835
 
