@@ -44,7 +44,7 @@ SynthDef(\violin, {
 	pwm = pwm * LFNoise2.kr(pwmVarRate).range(0.2, 0.8);
 
 	snd = VarSaw.ar(
-		freq: freq * LFPulse.ar(freq * 1.5).range(1/scratch, scratch),
+		freq: Lag.kr(freq) * LFPulse.ar(freq * 1.5).range(1/scratch, scratch),
 		width: pwm,
 		mul: amp
 	);
