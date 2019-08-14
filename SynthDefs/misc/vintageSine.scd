@@ -33,8 +33,8 @@ SynthDef(\vintageSine, {
 
 },
 metadata: (
-	credit: "Original by Zé Craum, http://sccode.org/1-5aD",
-	category: \organ,
+	credit: "Zé Craum; Josh Mitchell",
+	category: \misc,
 	tags: [\vintage, \pitched]
 	)
 ).add
