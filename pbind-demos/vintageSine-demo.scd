@@ -1,4 +1,4 @@
-Pdef( \vintageSine,
+Pdef(\vintageSine,
 	Pmono(
 	"vintageSine",
 	\ctranspose, Pseq([Prand([-6, -6, 6], 20), -6], 1),
