@@ -24,14 +24,14 @@ SynthDef(\violin, {
 	//Other Controls
 	bridgeFreq = 2500, scratchDepth = 0.15;
 
-	var scratch, env, bend, pwm, snd;
+	var scratch, env, pwm, snd;
 
-	scratch = (1.015 + Env.perc(att, dec * 1.25, (scratchDepth)).kr);
+	scratch = 1.015 + Env.perc(att, dec * 1.25, scratchDepth).kr;
 
 	env = Env.adsr(att, dec, sus, rel).kr(gate: gate, doneAction: 2);
 
-	bend = Vibrato.ar(
-		            freq: DC.ar(freq),
+	freq = Vibrato.kr(
+		            freq: freq,
 		            rate: vRate,
 		            depth: vDepth,
 	            	delay: (att + dec),
@@ -44,7 +44,7 @@ SynthDef(\violin, {
 	pwm = pwm * LFNoise2.kr(pwmVarRate).range(0.2, 0.8);
 
 	snd = VarSaw.ar(
-		freq: bend * LFPulse.ar(freq * 1.5).range(1/scratch, scratch),
+		freq: freq * LFPulse.ar(freq * 1.5).range(1/scratch, scratch),
 		width: pwm,
 		mul: amp
 	);
@@ -55,8 +55,8 @@ SynthDef(\violin, {
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
-	credit: "Original by nicolaariutti, http://sccode.org/1-5as",
+	credit: "Original by nicolaariutti, modified by Josh Mitchell",
 	category: \strings,
-	tags: [\bowed, \pitched]
+	tags: [\bowed, \pitched, \violin]
 	)
-).add
+).add;
