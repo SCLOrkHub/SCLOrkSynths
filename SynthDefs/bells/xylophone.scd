@@ -37,8 +37,8 @@ SynthDef(\xylophone, {
 	Out.ar(out, Pan2.ar(snd, pan, amp));
 },
 metadata: (
-	credit: "http://sccode.org/1-5aD",
+	credit: "nicolaariutti and Ze Craum",
 	category: \bells,
 	tags: [\pitched]
 	)
-).add
+).add;
