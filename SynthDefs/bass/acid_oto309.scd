@@ -7,7 +7,11 @@ Slightly modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
 SynthDef("acid_oto309", {
-	arg out = 0, gate = 1, freq = 440, amp = 0.1, pan = 0, att = 0.001, dec = 0.5, sus = 0.1, rel = 0.5, curve = -4, lagTime = 0.12, filterRange = 2500, width = 0.51, rq = 0.3;
+	arg
+	//Standard Arguments
+	out = 0, gate = 1, freq = 440, amp = 0.1, pan = 0, att = 0.001, dec = 0.5, sus = 0.1, rel = 0.5, curve = -4,
+	//Other Controls (width is 0 - 1)
+	lagTime = 0.12, filterRange = 2500, width = 0.51, rq = 0.3;
 
 	var env1, env2, snd, pitch;
 
