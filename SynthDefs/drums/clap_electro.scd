@@ -19,31 +19,35 @@ SynthDef(\clap_electro, {
 
     // noise 1 - 4 short repeats
     env1 = Env.new(
-            [0, 1, 0, 0.9, 0, 0.7, 0, 0.5, 0],
-            [att / 20, 0.009, 0, 0.008, 0, 0.01, 0, 0.03],
-            [0, curve, 0, curve, 0, curve, 0, curve]
+            levels: [0, 1, 0, 0.9, 0, 0.7, 0, 0.5, 0],
+            times: [att / 20, 0.009, 0, 0.008, 0, 0.01, 0, 0.03],
+            curve: [0, curve, 0, curve, 0, curve, 0, curve]
         ).kr;
 
     noise1 = WhiteNoise.ar(env1);
-    noise1 = HPF.ar(noise1, 600);
-    noise1 = LPF.ar(noise1, XLine.kr(7200, fadeFreq, fadeTime * 0.058));
-    noise1 = BPF.ar(noise1, 1620, 3);
+	noise1 = HPF.ar(in:noise1, freq: 600);
+    noise1 = LPF.ar(
+		    in: noise1,
+		    freq: XLine.kr(start: 7200, end: fadeFreq, dur: fadeTime * 0.058)
+	    );
+    noise1 = BPF.ar(in: noise1, freq: 1620, rq: 3);
 
     // noise 2 - 1 longer single
-	env2 = Env.perc(att, rel, 1, [0, curve]).kr;
+	env2 = Env.perc(attackTime: att, releaseTime: rel, curve: [0, curve]).kr;
 
-    noise2 = WhiteNoise.ar(env2); //Try GrayNoise here - JM
-    noise2 = HPF.ar(noise2, 1000);
-    noise2 = LPF.ar(noise2, 7600);
-    noise2 = BPF.ar(noise2, 1230, 0.7);
+    noise2 = WhiteNoise.ar(env2);
+    noise2 = HPF.ar(in: noise2, freq: 1000);
+    noise2 = LPF.ar(in: noise2, freq: 7600);
+    noise2 = BPF.ar(in: noise2, freq: 1230, rq: 0.7);
 
+	//Mixing
 	snd = Mix.ar((mix * noise1) + ((1 - mix) * noise2));
-    snd = snd * 2;
-    snd = snd.softclip;
+	snd = (snd * 2).softclip;
+	snd = snd * amp
 
-	DetectSilence.ar(snd, 0.0001, 0.2, doneAction: 2);
+	DetectSilence.ar(in: snd, doneAction: 2);
 
-    Out.ar(out, Pan2.ar(snd,pan,amp));
+    Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
 	credit: "Nathan Ho aka Snappizz, http://sccode.org/1-523",
