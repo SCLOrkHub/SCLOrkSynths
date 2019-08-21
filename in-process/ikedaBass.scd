@@ -42,8 +42,10 @@ Pbind(
 	\amp, 1
 ).play;
 )
+
 FreqScope.new;
 Stethoscope.new;
+
 /*
 original:
 
