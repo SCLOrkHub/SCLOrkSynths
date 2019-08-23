@@ -1,4 +1,4 @@
-Pbindef( \glockenspiel,
+Pbindef(\glockenspiel,
 	\instrument, "glockenspiel",
     \ctranspose, 12,
 	\dur, Pseq([Pn(1/3, 6), 2/3, Pn(1/3, 6), 1], 1),
