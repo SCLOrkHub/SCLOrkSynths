@@ -1,5 +1,8 @@
 /*
-Unknown source, modified by Bruno Ruviaro and Josh Mitchell 8/19.
+James Harkins
+http://doc.sccode.org/Tutorials/A-Practical-Guide/PG_04_Words_to_Phrases.html
+
+Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
 SynthDef("bassWarsaw", {
@@ -12,22 +15,17 @@ SynthDef("bassWarsaw", {
 	var snd, env;
 
 	env = Env.adsr(att, dec, sus, rel).kr(gate: gate, doneAction: 2);
-
 	freq = Lag.kr(freq, slideTime);
-
 	snd = VarSaw.ar(freq: [freq, freq * detune], width: width, mul: preamp);
-
 	snd = Mix(snd).distort;
-
 	snd = snd * env;
-
 	snd = LPF.ar(snd, cutoff, amp);
 
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
-	credit: "unknown",
+	credit: "James Harkins",
 	category: \bass,
 	tags: [\bass, \synth, \pitched]
 	)
-).add
+).add;
