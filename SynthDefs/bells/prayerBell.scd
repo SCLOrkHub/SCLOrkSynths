@@ -9,7 +9,7 @@ http://sccode.org/wondersluyter
 Slightly modified by Bruno Ruviaro, 2019.
 */
 
-SynthDef(\prayerBell, { arg out, singSwitch = 0, freq = 2434, amp = 0.5, decayScale = 1, lag = 10, pan = 0;
+SynthDef("prayerBell", { arg out, singSwitch = 0, freq = 2434, amp = 0.5, decayScale = 1, lag = 10, pan = 0;
 	var snd, input, first, freqScale, mallet, sing;
 	freqScale = freq / 2434;
 	freqScale = Lag3.kr(freqScale, lag);
