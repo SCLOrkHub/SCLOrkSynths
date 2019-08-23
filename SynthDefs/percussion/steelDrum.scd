@@ -1,5 +1,6 @@
 /*
-A SynthDef by Josh Mitchell, 8/19.
+A SynthDef by Josh Mitchell, August 2019.
+SCLOrk, Santa Clara University
 */
 
 SynthDef("steelDrum", {
@@ -41,7 +42,7 @@ SynthDef("steelDrum", {
 },
 metadata: (
 	credit: "Josh Mitchell",
-	category: \bells,
-	tags: [\pitched]
+	category: \percussion,
+	tags: [\pitched, \steelDrum, \steelPan]
 	)
 ).add

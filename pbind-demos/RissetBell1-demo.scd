@@ -1,5 +1,5 @@
-Pbindef(\RissetBell1,
-	\instrument, "RissetBell1",
+Pbindef(\rissetBell,
+	\instrument, "rissetBell",
 	\freq, Prand([1, 1.5, 2, 2.1], 4) * 600,
 	\dur, Pwhite(1/2, 3),
 	\amp, 0.025,

@@ -1,4 +1,4 @@
-Pbindef( \steelDrum,
+Pbindef(\steelDrum,
 	\instrument, "steelDrum",
 	\ctranspose, 0,
 	\beatFreq, 9,
