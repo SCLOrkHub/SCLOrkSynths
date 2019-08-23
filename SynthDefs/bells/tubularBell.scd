@@ -41,8 +41,8 @@ SynthDef(\tubularBell, {
 	Out.ar(out, Pan2.ar(snd, pan, amp));
 },
 metadata: (
-	credit: "http://sccode.org/1-5aD",
+	credit: "nicolaariutti, Zé Craum, Josh Mitchell",
 	category: \bells,
-	tags: [\pitched]
+	tags: [\pitched, \tubular, \bell]
 	)
-).add
+).add;

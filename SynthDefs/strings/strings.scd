@@ -33,4 +33,4 @@ metadata: (
 	category: \strings,
 	tags: [\pitched]
 	)
-).add
+).add;
