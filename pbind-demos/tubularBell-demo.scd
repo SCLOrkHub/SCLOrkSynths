@@ -1,4 +1,4 @@
-Pbindef( \tubularBell,
+Pbindef(\tubularBell,
 	\instrument, "tubularBell",
     \ctranspose, -12,
 	\dur, Pseq([1, 5], inf),
