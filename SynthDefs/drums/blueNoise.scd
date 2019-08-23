@@ -37,7 +37,7 @@ SynthDef("blueNoise", {
 },
 metadata: (
 	credit: "Josh Mitchell",
-	category: \bass,
+	category: \drums,
 	tags: [\noise, \unpitched, \cymbal]
 	)
-).add
+).add;
