@@ -8,7 +8,7 @@ Original by Nathan Ho aka Snappizz, http://sccode.org/1-523
 Modified By Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-SynthDef(\clap_electro, {
+SynthDef("clapElectro", {
     arg
 	//Standard Arguments
 	out = 0, amp = 0.5, pan = 0, att = 0.02, rel = 0.2, curve = -4,
@@ -43,7 +43,7 @@ SynthDef(\clap_electro, {
 	//Mixing
 	snd = Mix.ar((mix * noise1) + ((1 - mix) * noise2));
 	snd = (snd * 2).softclip;
-	snd = snd * amp
+	snd = snd * amp;
 
 	DetectSilence.ar(in: snd, doneAction: 2);
 
