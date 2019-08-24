@@ -27,7 +27,7 @@ SynthDef("clapGray", {
 	spread = LFNoise1.kr(spreadRate).range(minDelay, maxDelay);
 
 	env1 = Env.perc(attackTime: att / 10, releaseTime: rel / 8, curve: [0, curve]).kr;
-	env1 = CombC.ar(in: env1, maxdelaytime: 0.1, delaytime: spread, decaytime: decay);
+	env1 = CombC.ar(in: env1, maxdelaytime: maxDelay, delaytime: spread, decaytime: decay);
 
 	noise1 = GrayNoise.ar(env1); //Play with frequencies here:
 	noise1 = RHPF.ar(in: noise1, freq: 1000, rq: rq);
