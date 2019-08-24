@@ -208,12 +208,22 @@ Button.new(
 	if(~currentSynth.notNil,
 		{
 			var sPath, pPath;
-			var sString, pString;
+			var sString, pString, pStringLastAscii;
 			sPath = ~synthDictionary[~currentSynth.asSymbol][\synthPath];
 			pPath = ~synthDictionary[~currentSynth.asSymbol][\patternPath];
 			sString = String.readNew(File.new(sPath, "r"));
 			pString = String.readNew(File.new(pPath, "r"));
-			pString = if(pString.last.ascii == ";".last.ascii, { pString = pString.drop(-1) } );
+
+			while(
+				{pStringLastAscii != 41}, // while this is *not* a ")" (ascii 41)
+				// remove last characters until reaching the parenthesis:
+				{
+					pString = pString.drop(-1);
+					pStringLastAscii = pString.last.ascii;
+					// ["last ascii now is", lastAscii].postln;
+				}
+			);
+
 			Document.new(
 				title: ~currentSynth.asString ++ " code",
 				string:
