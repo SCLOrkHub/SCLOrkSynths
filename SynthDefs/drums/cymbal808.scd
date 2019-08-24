@@ -2,6 +2,8 @@
 Retrieved from
 https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/cymbal808_ryan.scd
 
+Published on sc-users 2007-08-25 by Ryan Brown
+
 alternate freqs values found in original:
 	[78.6, 140.44, 123.87, 219.4, 787.5, 531.3];
 	[300, 402.6, 369.36, 495.96, 585.69, 645.69];
@@ -10,7 +12,7 @@ alternate freqs values found in original:
 Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-SynthDef(\cymbal808Ryan, {
+SynthDef(\cymbal808, {
 	arg
 	//Standard Values:
 	out = 0, pan = 0, att = 0.002, dec = 0.25, rel = 0.05, amp = 0.1,
