@@ -19,4 +19,4 @@ Pbindef(\hihatElectro,
 		\rest, 0.3, 0.5
 	], inf),
 	\filterFreq, Pseries(4500, -75)
-).play;
+);
