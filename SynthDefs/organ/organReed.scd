@@ -8,7 +8,6 @@ http://sccode.org/1-51m
 Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-(
 SynthDef("organReed", {
     arg
 	//Standard Values
@@ -16,7 +15,7 @@ SynthDef("organReed", {
 	//Depth and Rate Controls (pwmDepth and amDepth range from 0 to 1)
 	ranDepth = 0.04, pwmRate = 0.06, pwmDepth = 0.1, amDepth = 0.05, amRate = 5,
 	//Other Controls
-	nyquist = 15000, fHarmonic = 0.82, fFreq = 2442, rq = 0.3, hiFreq = 1200, hirs = 1, hidb = 3;
+	nyquist = 18000, fHarmonic = 0.82, fFreq = 2442, rq = 0.3, hiFreq = 1200, hirs = 1, hidb = 1;
 
     var snd, env;
 
@@ -55,4 +54,3 @@ metadata: (
 	tags: [\pitched, \tom, \sos]
 	)
 ).add;
-)
