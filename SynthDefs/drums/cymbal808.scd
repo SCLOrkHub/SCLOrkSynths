@@ -1,5 +1,8 @@
-/*Recieved from
+/*
+Retrieved from
 https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/cymbal808_ryan.scd
+
+Published on sc-users 2007-08-25 by Ryan Brown
 
 alternate freqs values found in original:
 	[78.6, 140.44, 123.87, 219.4, 787.5, 531.3];
@@ -9,7 +12,7 @@ alternate freqs values found in original:
 Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-SynthDef(\cymbal808_ryan, {
+SynthDef(\cymbal808, {
 	arg
 	//Standard Values:
 	out = 0, pan = 0, att = 0.002, dec = 0.25, rel = 0.05, amp = 0.1,
@@ -20,9 +23,17 @@ SynthDef(\cymbal808_ryan, {
 
 	freqs = [205.35, 304.41, 369.64, 522.71, 540.54, 812.21];
 
-	env = Env.new(levels: [0, 1, decLevel, 0], times: [att, dec, rel], curve: [0, -0.5, 0]).kr;
+	env = Env.new(
+		levels: [0, 1, decLevel, 0],
+		times: [att, dec, rel],
+		curve: [0, -0.5, 0]
+	).kr;
 
-	pulseEnv = Env.new(levels: [1.0, 0.6], times: dec, curve: -0.5).kr;
+	pulseEnv = Env.new(
+		levels: [1.0, 0.6],
+		times: dec,
+		curve: -0.5
+	).kr;
 
 	snd = Mix.ar(LFPulse.ar(freq: freqs * 4.09));
 
@@ -45,6 +56,7 @@ SynthDef(\cymbal808_ryan, {
 },
 metadata: (
 	credit: "Published on sc-users 2007-08-25 by Ryan Brown",
+	category: \drums,
 	tags: [\808, \hihat, \percussion, \cymbal, \unpitched]
 	)
 ).add;

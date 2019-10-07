@@ -32,7 +32,7 @@ SynthDef(\subBass1, {
 	octave = Mix.ar([octa, octb]);
 
 	//Mixer stage, volume adjustments, envelope, and output
-	snd = Mix.ar([octave * blend * 0.5, in * (blend - 1) * 0.25]);
+	snd = Mix.ar([octave * blend * 0.5, in * (1 - blend) * 0.25]);
 	snd = LeakDC.ar(snd);
 	snd = Limiter.ar(in: snd, level: 1);
 	snd = snd * env;

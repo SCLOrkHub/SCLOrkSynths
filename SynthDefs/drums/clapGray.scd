@@ -1,14 +1,18 @@
-/* Recieved from
+/*
+By Josh Mitchell, August 2019
+SCLOrk - Santa Clara Laptop Orchestra
+Santa Clara University
+
+Inspired by
 https://github.com/supercollider-quarks/SynthDefPool/blob/master/pool/clap_oto309.scd
 
-Mods:
--Instead of Env.new, the Synthdef now sends env1 through a delay line for easier control and understandability
+Some of the modifications from oto309:
+-Instead of Env.new, the Synthdef now sends env1 through a delay line
 -Light reverb added for a more realistic sound
-
-All other modifications by Bruno Ruviaro and Josh Mitchell 8/19.
+-GrayNoise instead of WhiteNoise
 */
 
-SynthDef("clap_oto309", {
+SynthDef("clapGray", {
 	arg
 	//Standard Values
 	out = 0, amp = 0.1, pan = 0, att = 0.001, rel = 0.25, curve = -4,
@@ -23,7 +27,7 @@ SynthDef("clap_oto309", {
 	spread = LFNoise1.kr(spreadRate).range(minDelay, maxDelay);
 
 	env1 = Env.perc(attackTime: att / 10, releaseTime: rel / 8, curve: [0, curve]).kr;
-	env1 = CombC.ar(in: env1, maxdelaytime: 0.1, delaytime: spread, decaytime: decay);
+	env1 = CombC.ar(in: env1, maxdelaytime: maxDelay, delaytime: spread, decaytime: decay);
 
 	noise1 = GrayNoise.ar(env1); //Play with frequencies here:
 	noise1 = RHPF.ar(in: noise1, freq: 1000, rq: rq);
@@ -46,7 +50,8 @@ SynthDef("clap_oto309", {
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
-	credit: "from 08091500Acid309 by_otophilia, mods by by Josh Mitchell",
+	credit: "Josh Mitchell, 2019",
+	category: \drums,
 	tags: [\clap, \percussion]
 	)
 ).add;
