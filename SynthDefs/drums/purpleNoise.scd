@@ -42,4 +42,4 @@ metadata: (
 	category: \bass,
 	tags: [\noise, \unpitched, \cymbal]
 	)
-).add
+).add;
