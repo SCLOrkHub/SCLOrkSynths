@@ -8,4 +8,5 @@ Pdef(\moogBass,
 		\gain, Pseries(2, 0.1, inf),
 		\cutoff, Pseries(4000, 400, inf),
 		\chorus, Pwhite(0.7, 0.9)
-));
+)
+);
