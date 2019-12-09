@@ -9,6 +9,11 @@ Feel free to suggest new SynthDef for the collection.
 
 This repository was previously named SynthDefs-for-Patterns.
 
+2019 contributors:
+Meha Gupta
+Josh Mitchell
+Bruno Ruviaro
+
 ## Some conventions
 
 SynthDefs should have the following arguments (default values encouraged but flexible):
