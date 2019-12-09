@@ -11,11 +11,11 @@ This repository was previously named SynthDefs-for-Patterns.
 
 2019 contributors:
 
-Meha Gupta @mehagupta
+Meha Gupta @mehagupta - initial gathering and upload of SynthDefs from mailing lists and public forums
 
-Josh Mitchell @joshmit
+Josh Mitchell @joshmit - standardizing coding conventions, rewriting SynthDefs to clarify or improve parts of them, adding new original SynthDefs
 
-Bruno Ruviaro @brunoruviaro
+Bruno Ruviaro @brunoruviaro - team director, final review of every update, GUI creation, adding new original SynthDefs
 
 ## Some conventions
 
