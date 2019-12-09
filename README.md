@@ -11,11 +11,11 @@ This repository was previously named SynthDefs-for-Patterns.
 
 2019 contributors:
 
-Meha Gupta
+Meha Gupta @mehagupta
 
-Josh Mitchell
+Josh Mitchell @joshmit
 
-Bruno Ruviaro
+Bruno Ruviaro @brunoruviaro
 
 ## Some conventions
 
