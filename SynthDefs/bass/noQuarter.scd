@@ -1,7 +1,4 @@
 /*
-
-NEED TO ADD METADATA
-
 By Eric Sluyter
 Retrieved from https://sccode.org/1-4YY and
 https://sound.stackexchange.com/questions/35138/help-me-make-a-patch-for-this-bass-stab-pluck
@@ -10,11 +7,9 @@ Slightly reformatted by Bruno Ruviaro November 2019.
 
 from Eric:
 "You could definitely use any number of hardware synths or plugins to do the same thing. General method I used, create a "pluck" sound with Karplus-Strong synthesis, and combine with a triangle wave, sine wave, and sub sine (sine wave at 1/2 the frequency). I also added a "click" at the beginning to give a little more punch. Then used enveloped resonant low pass filters to give it that synthy twang, and applied a little distortion to give it some color."
-
 */
 
-(
-SynthDef("noQuarterBass", {
+SynthDef("noQuarter", {
 	arg
 	// Standard Arguments
 	out = 0, freq = 440, amp = 0.1, pan = 0, att = 0, rel = 1, curve = -4;
@@ -83,28 +78,10 @@ SynthDef("noQuarterBass", {
 
 	snd = Pan2.ar(snd, pan);
 	Out.ar(out, snd);
-}).add;
-)
-
-(
-Pbindef(\noQuarter,
-	\instrument, "noQuarterBass",
-	\midinote, Pseq([
-		Pseq([
-			42, 42, 42, \rest, 42, // m. 1
-			42, 42, 45, 42, 47, \rest, 47, 45 // m. 2
-		], 2),
-		42
-	]),
-	\dur, Pseq([
-		Pseq([
-			1, 1, 1, Rest(3/4), 1/4,
-			1/2, 1/2, 1/2, 1/4, 1/4, Rest(1.5), 1/4, 1/4,
-		], 2),
-		1
-	]),
-	\att, 0,
-	\rel, 1,
-	\amp, 1
-).play
-)
+},
+metadata: (
+	credit: "by Eric Sluyter",
+	category: \bass,
+	tags: [\pitched, \bass, \karplus]
+	)
+).add;
