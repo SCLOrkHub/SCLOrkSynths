@@ -7,7 +7,7 @@ http://www.sussex.ac.uk/Users/nc81/index.html
 Modified by Josh Mitchell and Bruno Ruviaro 8/19.
 */
 
-SynthDef(\everythingrhodes, {
+SynthDef("everythingRhodes", {
 	arg
 	//Standard Definitions
 	out = 0, freq = 440, amp = 0.1, att = 0.001, rel = 3, pan = 0,
