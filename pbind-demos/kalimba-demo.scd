@@ -10,7 +10,6 @@ Pbindef(\kalimba,
 		[1, 8], 14, [2, 12], 11, [3, 9], 5, 7, 8, [4, 9], 3, 11, 9, [0, 8]
 	], 1),
 	\amp, 0.2,
-	\minRel, 1.5,
-	\maxRel, 2.5,
+	\rel, Pwhite(1.5, 2.5),
 	\clickRel, Pwhite(0.01, 0.02, inf),
 );
