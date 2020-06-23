@@ -16,16 +16,18 @@ Modified By Josh Mitchell and Bruno Ruviaro July 2019.
 SynthDef(\kalimba, {
 	arg
 	// Standard values
-	out = 0, freq = 440, amp = 0.1, att = 0.001, pan = 0,
-	// Mix control goes from 0 to 1
-	mix = 0.1,
-	// Release controls for different parts of the sound
-	minRel = 2.5, maxRel = 3.5, clickRel = 0.01;
+	out = 0, freq = 440, amp = 0.1, att = 0.001, rel = 3, pan = 0, crv = -8,
+	// Other controls (mix control goes from 0 to 1)
+	mix = 0.1, clickRel = 0.01;
 
 	var note, env, body, snd;
 
-	env = Env.perc(att * 3, Rand(minRel, maxRel), 1, -8).kr(doneAction: 2);
+	env = Env.perc(
+		attackTime:att * 3, releaseTime: rel,
+		curve: crv).kr(doneAction: 2);
+
 	note = SinOsc.ar(freq) * env;
+
 	body = DynKlank.ar(
 		specificationsArrayRef:
 		Ref.new([
@@ -37,13 +39,14 @@ SynthDef(\kalimba, {
 		// Try BrownNoise, GrayNoise, etc. here, but you may need to change ring times above
 		(PinkNoise.ar * Env.perc(att, clickRel).kr)
 	);
+
 	snd = (note * (1 - mix)) + (body * mix) * amp;
 
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
 	credit: "by Nathan Ho aka Snappizz",
-	category: \bells,
+	category: \percussion,
 	tags: [\pitched, \kalimba]
 )
 ).add;
