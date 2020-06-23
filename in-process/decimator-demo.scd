@@ -1,0 +1,14 @@
+Pbindef( \decimator,
+	\instrument, "decimator",
+	\dur, 1/3,
+	\legato, 0.5,
+	\rel, 0.3,
+	\degree, Pseq([
+		Pseq([0, 2, 1, 3, 4, 3, 2, 1], 4), 0,
+		Pn(\rest, 2),
+		Pseq([0, 2, 1, 3, 4, 3, 2, 1], 4), 0]),
+	\samplerate, Pn(Pgeom(22500, 8/9, 35), 2),
+	\bitdepth, Pn(Pseries(68, -2, 35), 2),
+    \filterswitch, Pseq([Pn(0, 35), Pn(1, 33)]),
+	\amp, 0.3,
+);
