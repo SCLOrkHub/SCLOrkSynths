@@ -68,7 +68,7 @@ SynthDef("ksbass", {
 },
 metadata: (
 	credit: "Josh Mitchell",
-	category: \misc,
+	category: \bass,
 	tags: [\pitched, \bass]
 	)
 ).add;
