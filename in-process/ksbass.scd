@@ -58,7 +58,6 @@ SynthDef("ksbass", {
 		rq: rq);
 
 	// Output stuff
-	//snd = LeakDC.ar(snd);
 	snd = Mix.ar(snd) * amp;
 	snd = Limiter.ar(snd);
 
