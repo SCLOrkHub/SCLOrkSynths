@@ -2,8 +2,8 @@
 This is a synthDef based on Karplus-Strong synthesis (just like Pluck.ar).
 
 Karplus-Strong synthesis involves an initial impulse being sent through a delay,
-which then, through negative feedback, creates a sound with a frequency given
-by 1/(the delay time), which often sounds like a string pluck. There's usually a
+which then, through a feedback loop, creates a sound with a frequency given by
+1/(the delay time), which often sounds like a string pluck. There's usually a
 filter in the feedback loop of the delay, which is the coef argument of Pluck.
 It's pretty important to the string sound. However, it takes math to get the
 pitch right when there's any filter in the feedback loop, and I don't really
@@ -12,7 +12,7 @@ like the typical Pluck.ar sound anyways.
 So, I rebuilt a simpler version of Pluck! The biggest difference aside from the
 filter being after the delay line, instead of in a feedback loop, is the initial
 pulse I used. Using a single impulse produces a saw-like sound, but the initial
-shape I made looks a bit like a trapezoid, instead of a single impulse. The shape
+shape I made looks a bit like a trapezoid, for a less "buzzy" sound. The shape
 of it varies with the rise, up, fall, and down parameters; if one is bigger, that
 section of the shape lasts for a longer part of the waveform.
 
