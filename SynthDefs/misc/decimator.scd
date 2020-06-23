@@ -3,7 +3,7 @@ This is a synthDef that's inspired by (and tries to replicate) the Decimator qua
 
 The decimator quark allows you to change the sample rate and bit depth of a signal,
 independently of the sample rate and bit depth supercollider is currently running at.
-These changes are done in the SynthDef through Latch.ar (a sample-and-hold) and .round,
+These changes are done in this SynthDef through Latch.ar (a sample-and-hold) and .round,
 respectively.
 
 I've also added a pair of low pass filters at the beginning and end of these sections,
@@ -16,7 +16,7 @@ stuff above the nyquist frequency makes the resulting sound a bit cleaner.
 Funnily enough, because of the weird things that happen above the nyquist frequency, my
 sample rate clock is only able to go up to the nyquist frequency related to supercollider's
 sampling rate without itself being aliased. I set a limit on my decimator's sample rate
-becauseof this, but you can remove it if you want.
+because of this, but you can remove it if you want.
 
 By Josh Mitchell June 2020
 */
