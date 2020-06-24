@@ -42,6 +42,8 @@ SynthDef(\kalimba, {
 
 	snd = (note * (1 - mix)) + (body * mix) * amp;
 
+	DetectSilence.ar(in: snd, doneAction: 2);
+
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
