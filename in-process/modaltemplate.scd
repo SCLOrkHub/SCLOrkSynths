@@ -2,37 +2,41 @@
 A somewhat messy template I've made for myself for working with modal
 synthesis. A huge majority of the information in here comes from Nathan Ho,
 especially here: https://nathan.ho.name/posts/exploring-modal-synthesis/
-The freqarray formula I'm using right now comes from the Mutable Instruments
-Elements module, and I learned it through Nathan Ho's site above.
 */
 
 SynthDef(\modaltemplate, {
 	arg
 	// Standard values
-	out = 0, freq = 220, amp = 0.1, att = 0.001, rel = 0.7, pan = 0, crv = -8,
+	out = 0, freq = 440, amp = 0.1, att = 0.001, hold = 0, dec = 0.1, rel = 5, pan = 0, crv = 0,
 	// Other controls
-	stretch = 1.001, deck = 0.5, decm = 2e-8, decf = 0, position = 0.414;
+	stretch = 1.0001, decaycoef = 2, position = 0.414, slope = 3;
 
 	var exciter, freqarray, amparray, decarray, snd;
 
-	freqarray = Array.fill(16, {
+	freqarray = Array.fill(200, {
 		arg i;
-		(i + 1) * (1 + (i * stretch))
+		(i + 1) * sqrt(1 + ((i + 1).pow(2) * stretch))
+	});
+	freqarray = freqarray/freqarray[0];
+
+	amparray = Array.fill(200, {
+		arg i;
+		sin((i + 1) * position * pi) *
+		(slope * (i + 1).log2).dbamp *
+		(1 + exp(100 * (freqarray[i]-20000)))
 	});
 
-	amparray = Array.fill(16, {
+	decarray = Array.fill(200, {
 		arg i;
-		sin((i + 1) * position * pi) * 2.pow(i/16) * 0.5
+		exp(-1 * i * decaycoef)
 	});
+	decarray = decarray/decarray[0];
 
-	decarray = Array.fill(16, {
-		arg i;
-		1/(deck + (decm * freqarray[i] * freqarray[i]) + (decf * freq * freq))
-	});
-
-	exciter = SinOsc.ar(
-		freq: Line.ar(SampleRate.ir/2, 0, att),
-		mul: 0.1);
+	exciter = Env.linen(
+		attackTime: att,
+		sustainTime: hold,
+		releaseTime: dec,
+		curve: crv).ar;
 
 	snd = DynKlank.ar(
 		specificationsArrayRef:
@@ -57,3 +61,5 @@ metadata: (
 
 //FreqScope.new;
 //Stethoscope.new;
+
+
