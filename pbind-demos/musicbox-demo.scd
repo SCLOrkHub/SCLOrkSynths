@@ -14,6 +14,6 @@ Pbindef(\musicbox,
 		67, 67, 79, 76, 72, 71, 69,
 		77, 77, 76, 72, 74
 	] + 35, 1).midicps.pow(0.9),
-	\amp, 0.5,
+	\amp, 0.2,
 	\filterfreq, 8000,
 );
