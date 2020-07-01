@@ -18,15 +18,20 @@ sample rate clock is only able to go up to the nyquist frequency related to supe
 sampling rate without itself being aliased. I set a limit on my decimator's sample rate
 because of this, but you can remove it if you want.
 
+Lastly, the preamp control pushes the input signal above a hard clipping threshold to
+simulate a signal that's too loud going into an adc. If you don't want this effect, set
+the preamp control to 1.
+
 By Josh Mitchell June 2020
 */
 
 SynthDef("decimator", {
     arg
 	//Standard Values
-	out = 0, pan = 0, freq = 440, amp = 0.1, gate = 1, att = 0.001, dec = 0.1, sus = 0.9, rel = 1, crv = -2,
-    //Other controls, filterswitch is 0 or 1
-	bitdepth = 48, samplerate = 10000, filterswitch = 0, filtermult = 0.5;
+	out = 0, pan = 0, freq = 440, amp = 0.1, gate = 1,
+	att = 0.001, dec = 0.1, sus = 0.9, rel = 1, crv = -2,
+        //Other controls, filterswitch is 0 or 1
+	preamp = 1, bitdepth = 16, samplerate = 10000, filterswitch = 0, filtermult = 0.5;
 
 	var rate, env, snd, clock, remainder;
 
@@ -41,8 +46,8 @@ SynthDef("decimator", {
 		releaseTime: rel,
 		curve: crv).ar(gate: gate, doneAction: 2);
 
-	//The input signal needs a range of 0 to 1.
-	snd = SinOsc.ar(freq: freq).range(0, 1);
+	// Fix the input signal range
+	snd = SinOsc.ar(freq: freq, mul: 0.5 * preamp, add: 0.5);
 	snd = snd * env;
 
 	//Input filtering to simulate a very cheap adc
@@ -55,10 +60,14 @@ SynthDef("decimator", {
 	snd = Latch.ar(snd, clock);
 
 	//Bit Depth Reduction
-	remainder = bitdepth.mod(1);
+	remainder = 2.pow(bitdepth).mod(1);
+	snd = Clip.ar(
+		in: snd,
+		lo: 0,
+		hi: 1);
 	snd = XFade2.ar(
-		inA: snd.round(1/bitdepth.floor),
-		inB: snd.round(1/(bitdepth.ceil + 1)),
+		inA: snd.round(1/(2.pow(bitdepth).floor)),
+		inB: snd.round(1/(2.pow(bitdepth).ceil)),
 		pan: (remainder * 2) - 1);
 
 	//Output filtering to simulate a very cheap dac (and other output stuff)
