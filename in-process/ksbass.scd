@@ -11,12 +11,12 @@ like the typical Pluck.ar sound anyways.
 
 So, I rebuilt a simpler version of Pluck! The biggest difference aside from the
 filter being after the delay line, instead of in a feedback loop, is the initial
-pulse I used. Using a single impulse produces a saw-like sound, but the initial
+pulse I used. Using a sharp impulse produces a saw-like sound, but the initial
 shape I made looks a bit like a trapezoid, for a less "buzzy" sound. The shape
-of it varies with the rise, up, fall, and down parameters; if one is bigger, that
-section of the shape lasts for a longer part of the waveform.
+of it varies with the impulse Att, Sus, Dec, and Hold parameters; if one is
+bigger, that section of the shape lasts for a longer percentage of the waveform.
 
-Stethoscope.new; is helpful when playing around with the shape.
+Stethoscope.new is helpful when playing around with the shape.
 
 By Josh Mitchell June 2020
 */
@@ -25,30 +25,27 @@ SynthDef("ksbass", {
     arg
 	// Standard Values
 	out = 0, pan = 0, freq = 100, amp = 1, rel = 1.5,
-    // Parameters for the note shape
-	rise = 0.5, up = 1, fall = 0.5, down = 1,
+        // Parameters for the impulse shape
+	impulseAtt = 0.5, impulseSus = 1, impulseDec = 0.5, impulseHold = 1,
 	// Filter parameters
 	filtermin = 250, filtermax = 5000, rq = 0.35;
 
-	var freqscale, total, exciter, snd;
+	var total, exciter, snd;
 
-	// Rescale freq from hz to time
-	freqscale = 1/freq;
+	// Rescale impulse values for the frequency of the note
+	total = (impulseAtt + impulseSus + impulseDec + impulseHold) * freq;
 
-	// Rescale values for the note shape
-	total = (rise + up + fall + down) * freq;
-
-	// Initial hit
+	// Initial impulse
 	exciter = Env.linen(
-		attackTime: rise/total,
-		sustainTime: up/total,
-		releaseTime: fall/total).ar;
+		attackTime: impulseAtt/total,
+		sustainTime: impulseSus/total,
+		releaseTime: impulseDec/total).ar;
 
 	// Delay line
 	snd = CombN.ar(
 		in: exciter,
 		maxdelaytime: 0.06,
-		delaytime: freqscale,
+		delaytime: 1/freq,
 		decaytime: rel);
 
 	// LPF
@@ -64,6 +61,14 @@ SynthDef("ksbass", {
 	DetectSilence.ar(in: snd, doneAction: 2);
 
     Out.ar(out, Pan2.ar(snd, pan));
+
+},
+metadata: (
+	credit: "Josh Mitchell",
+	category: \bass,
+	tags: [\pitched, \bass]
+	)
+).add;
 
 },
 metadata: (
