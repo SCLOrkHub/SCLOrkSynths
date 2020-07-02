@@ -23,7 +23,7 @@ By Josh Mitchell June 2020.
 SynthDef("saturatingWavefolder", {
     arg
 	// Standard Values
-	out = 0, pan = 0, freq = 160, amp = 1, att = 0.05, rel = 0.7, crv = -2,
+	out = 0, pan = 0, freq = 160, amp = 1, att = 0.001, rel = 0.7, crv = -2,
 	// Other controls
 	preamp = 20, limit = -0.2;
 
