@@ -28,17 +28,25 @@ SynthDef("organTonewheel1", {
 	              	depthVariation: vdepthVariation,
 	            );
 
-	env = Env.asr(attackTime: att, sustainLevel: amp, releaseTime: rel, curve: curve).ar(gate: gate, doneAction: 2);
+	env = Env.asr(
+		attackTime: att,
+		sustainLevel: amp,
+		releaseTime: rel,
+		curve: curve).ar(gate: gate);
 
 	snd = DynKlang.ar(
 		specificationsArrayRef: Ref.new([
-			        [1/12,  1/7, 1, 12, 19, 24, 28, 31, 36].midiratio,
-			        [bass, quint, fundamental, oct, nazard, blockFlute, tierce, larigot, sifflute].normalizeSum,
-			        nil
-		      ]),
+			[1/12,  1/7, 1, 12, 19, 24, 28, 31, 36].midiratio,
+			[bass, quint, fundamental, oct, nazard, blockFlute, tierce, larigot, sifflute].normalizeSum,
+			    ]),
 		freqscale: vibrato);
 
+	// Output Stuff
 	snd = snd * env;
+	snd = Mix.ar(snd);
+	snd = Limiter.ar(snd);
+
+	DetectSilence.ar(in: snd, doneAction: 2);
 
     Out.ar(out, Pan2.ar(snd, pan));
 
