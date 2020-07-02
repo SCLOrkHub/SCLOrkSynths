@@ -10,38 +10,40 @@ Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 SynthDef(\harpsichord2, {
 	arg
 	//Standard Values
-	out = 0, amp = 0.1, freq = 440, pan = 0, att = 0, rel = 0,
+	out = 0, amp = 0.1, freq = 440, pan = 0, rel = 5,
 	//Pluck arguments (blend goes from 0 to 1)
-	trig = 1, decaytime = 7, coef = 0.1, blend = 0.6;
+	trig = 1, coef = 0.1, blend = 0.6;
 
-	var env, exciter, root, octave, snd;
+	var exciter, root, octave, snd;
 
-	//Why is this not used, Josh?
-	env = Env.linen(attackTime: att, sustainTime: decaytime, releaseTime: rel).kr(doneAction: Done.freeSelf);
+        // You can use white noise here, but Pink is more realistic
+	exciter = PinkNoise.ar(amp);
 
-	exciter = PinkNoise.ar(amp); //Can use white noise here, but Pink is more realistic
-
-    root = Pluck.ar(  //fundamental
+	// Fundamental
+        root = Pluck.ar(
 	        in: exciter,
 	        trig: trig,
-	        maxdelaytime: 0.06, //only change this if freq goes below 20hz
-	        delaytime: 1 / freq,
-	        decaytime: decaytime,
+	        maxdelaytime: 1/freq,
+	        delaytime: 1/freq,
+	        decaytime: rel,
 	        coef: coef,
 	        mul: blend
         );
 
-	octave = Pluck.ar(  //octave up
+	// Octave Above
+	octave = Pluck.ar(
 	        in: exciter,
 	        trig: trig,
-	        maxdelaytime: 0.06, //only change this if freq goes below 20hz
-	        delaytime: 1 / (2 * freq),
-	        decaytime: decaytime,
+	        maxdelaytime: 1/(2 * freq),
+	        delaytime: 1/(2 * freq),
+	        decaytime: rel,
 	        coef: coef,
 	        mul: (1 - blend)
         );
 
+	// Output Stuff
 	snd = Mix.ar(root + octave);
+	snd = Limit.ar(snd);
 
     DetectSilence.ar(in: snd, doneAction: 2);
 
