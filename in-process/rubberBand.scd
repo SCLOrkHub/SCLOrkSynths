@@ -40,7 +40,7 @@ SynthDef(\rubberBand, {
 },
 metadata: (
 	credit: "Josh Mitchell",
-	category: \keyboards,
+	category: \misc,
 	tags: [\pitched]
 	)
 ).add;
