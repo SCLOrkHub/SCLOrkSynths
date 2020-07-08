@@ -64,7 +64,7 @@ SynthDef(\feedbackPad1, {
 
 	fbOut = DelayC.ar(
 		in: snd,
-		maxdelaytime: delStartStop,
+		maxdelaytime: delStartStop.max(delPeak.max(delSus)),
 		delaytime: delEnv,
 		mul: fbEnv);
 
