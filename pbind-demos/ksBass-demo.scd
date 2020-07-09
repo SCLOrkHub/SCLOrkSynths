@@ -1,5 +1,5 @@
-Pbindef( \ksass,
-	\instrument, "ksbass",
+Pbindef( \ksBass,
+	\instrument, "ksBass",
 	\dur, Pseq([1/4, 1/4, Rest(5/12), 1/12, 1/6, 1/12, 1/4, 1/4, 1/4,
 		        1/4, 1/4, Rest(1/6), 1/3, 1/4, 1/4, Rest(1/6), 1/3,
 		        1/4, 1/4, Rest(5/12), 1/12, 1/6, 1/12, 1/4, 1/4, 1/4,
