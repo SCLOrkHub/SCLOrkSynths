@@ -24,7 +24,7 @@ different impulse shapes can cause. If you don't want it, just set ratio to 1.
 By Josh Mitchell June 2020
 */
 
-SynthDef("ksbass", {
+SynthDef("ksBass", {
     arg
 	// Standard Values
 	out = 0, pan = 0, freq = 100, amp = 1, rel = 1.5,
