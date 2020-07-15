@@ -17,7 +17,7 @@ As the feedback amplitude approaches and goes beyond 1, the feedback causes chao
 oscillation, which sounds sort of like adding some sort of noise until it overpowers
 the original signal. If you're interested in creating musical chaos from really
 simple initial rules like this feedback one, Supercollider has lots of Ugens for that!
-Running    ChaosGen.allSubclasses    provides a long list of them for you.
+Running    ChaosGen.allSubclasses;    provides a long list of them for you.
 
 By Josh Mitchell July 2020.
 */
@@ -41,7 +41,7 @@ SynthDef(\feedbackPad1, {
 		decayTime: dec,
 		sustainLevel: sus,
 		releaseTime: rel,
-		curve: crv).ar(gate: gate, doneAction: 0);
+		curve: crv).ar(gate: gate);
 
 	fbEnv = Env.adsr(
 		attackTime: fbAtt,
@@ -50,7 +50,7 @@ SynthDef(\feedbackPad1, {
 		releaseTime: fbRel,
 		peakLevel: fbPeak,
 		curve: \lin,
-		bias: fbStartStop).ar(gate: gate, doneAction: 0);
+		bias: fbStartStop).ar(gate: gate);
 
 	delEnv = Env.adsr(
 		attackTime: delAtt,
@@ -59,12 +59,10 @@ SynthDef(\feedbackPad1, {
 		releaseTime: delRel,
 		peakLevel: delPeak,
 		curve: \lin,
-		bias: delStartStop).ar(gate: gate, doneAction: 0);
+		bias: delStartStop).ar(gate: gate);
 
 	// Receive the feedback
-	fbIn = LocalIn.ar(
-		numChannels: 1,
-		default: 0);
+	fbIn = LocalIn.ar;
 
 	// The Sound (yup, that's all it is)
 	snd = SinOsc.ar(
