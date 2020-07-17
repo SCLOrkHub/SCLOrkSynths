@@ -14,7 +14,7 @@ By Josh Mitchell July 2020.
 SynthDef(\rubberBand, {
 	arg
 	// Standard Values
-	out = 0, amp = 1, trig = 1, freq = 75, pan = 0, att = 0, rel = 1,
+	out = 0, amp = 1, freq = 75, pan = 0, att = 0, rel = 1,
 	// Impulse arguments (onFraction goes from 0 to 1, coef from -1 to 1)
 	bendMultiple = 0.25, bendTime = 0.075, impulseStartFreq = 800,
 	impulseStopFreq = 120, onFraction = 1, coef = 0.125;
