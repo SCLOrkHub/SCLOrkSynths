@@ -5,7 +5,7 @@ a sine wave that gets quickly swept from one frequency down (or up!) to
 another one. The idea comes from some percussion and modal synthesis
 experiments I've done, and I wondered what this same technique would do to
 Pluck. Turns out, it sounds kinda like a cartoony rubber band! So, I added a
-little bit of pitch bend at the beginning of a note, controlled by bendTime
+little bit of pitch bend at the beginning of the note, controlled by bendTime
 and bendMultiple, and called it a day.
 
 By Josh Mitchell July 2020.
@@ -36,7 +36,7 @@ SynthDef(\rubberBand, {
 	// Pluck
     snd = Pluck.ar(
 	    in: impulse,
-	    trig: trig,
+	    trig: Impulse.ar(0),
 	    maxdelaytime: 1/(freq * bendMultiple),
 	    delaytime: 1/freqline,
 	    decaytime: rel,
