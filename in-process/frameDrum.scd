@@ -8,7 +8,7 @@ By Josh Mitchell, July 2020
 SynthDef(\frameDrum, {
 	arg
 	// Standard values
-	out = 0, freq = 160, amp = 1, att = 0.0001, hold = 0, dec = 0.05, rel = 2.5, pan = 0, crv = 0,
+	out = 0, freq = 160, amp = 0.5, att = 0.0001, hold = 0, dec = 0.05, rel = 2.5, pan = 0, crv = 0,
 	// Other controls
 	downDecCoef = 0.5, acrossDecCoef = 0.5, position = 0.8, slope = 0.5,
 	thumpAmp = 0.7, thumpDec = 0.2;
@@ -75,26 +75,33 @@ SynthDef(\frameDrum, {
 
 	ampArray = Array.fill2D(16, 16, {
 		arg i, j;
-		cos(pi * position * ((2 * i) + 1)/2) * ampRowArray[j] *
-		(1 + exp(100 * (freqArray[i][j]-20000)))
+		if (freqArray[i][j] > 20000)
+	    	{ 0 }
+		    {
+		        cos(pi * position * ((2 * i) + 1)/2) * ampRowArray[j]
+		    }
 	});
 
 	decArray = Array.fill2D(16, 16, {
 		arg i, j;
-		exp(-1 * i * downDecCoef) *
-		exp(-1 * j * acrossDecCoef) *
 		(
-			abs(j + ((thumpDec.clip(0, 1) + 1)/2)) -
-			abs(j + ((thumpDec.clip(0, 1) - 1)/2))
-		)
+			if (j == 0)
+		        { thumpDec }
+		        { 1 }
+		) *
+		exp(-1 * i * downDecCoef) *
+		exp(-1 * j * acrossDecCoef)
 	});
 
+	// Exciter
 	exciter = Env.linen(
 		attackTime: att,
 		sustainTime: hold,
 		releaseTime: dec,
+		level: 0.01,
 		curve: crv).ar;
 
+	// Bank of resonators
 	snd = Array.fill(16, {
 		arg i;
 			DynKlank.ar(
@@ -106,7 +113,8 @@ SynthDef(\frameDrum, {
 	        )
 	});
 
-	snd = Mix.ar(snd)/16 * amp;
+	// Output stuff
+	snd = Mix.ar(snd) * amp;
 	snd = Limiter.ar(snd);
 
 	DetectSilence.ar(in: snd, doneAction: 2);
@@ -126,26 +134,26 @@ Synth(\frameDrum);
 //FreqScope.new;
 //Stethoscope.new;
 
-o = ServerOptions.new
-o.memSize = 262144
+//o = ServerOptions.new
+//o.memSize = 262144
 
 (
 Pbindef( \frameDrum,
 	\instrument, "frameDrum",
-	\dur, 0.2,
+	\dur, 0.165,
 	\legato, 0.25,
 	\freq, 160,
 	\rel, Pseq([
 		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.5, 1, 0.5,
 		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.5, 1, 0.5, 1, 0.5
-	] * 2, inf),
+	] * 2.25, inf),
 	\dec, 0.02,
 	\amp, Pseq([
-		1, 0.2, 1, 0.2, 1, 0.2, 0.2, 1, 0.2, 1, 0.2,
-		1, 0.2, 1, 0.2, 1, 0.2, 0.2, 1, 0.2, 1, 0.5, 1, 0.5
+		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.5, 1, 0.5,
+		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.2, 1, 0.75, 1, 0.75
 	], inf),
 	\position, Pseq([
-		0.1, 0.95, 0.1, 0.95, 0.75, 0.95, 0.95, 0.1, 0.95, 0.75, 0.95,
-		0.1, 0.95, 0.1, 0.95, 0.75, 0.95, 0.95, 0.1, 0.95, 0.75, 0.95, 0.85, 0.95], inf) + Pwhite(-0.05, 0.05),
+		0.15, 0.9, 0.15, 0.9, 0.75, 0.9, 0.9, 0.15, 0.9, 0.75, 0.9,
+		0.15, 0.9, 0.15, 0.9, 0.75, 0.9, 0.9, 0.15, 0.9, 0.75, 0.9, 0.85, 0.9], inf) + Pwhite(-0.1, 0.1),
 ).play;
 )
