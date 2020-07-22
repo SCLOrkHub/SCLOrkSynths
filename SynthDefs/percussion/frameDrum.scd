@@ -1,20 +1,46 @@
 /*
-A modal model of a vibrating circular membrane, a work in progress.
+Frame drums are one of the world's oldest instruments, if not THE oldest. Tons of
+different kinds of frame drums show up around the world, and they're pretty simple
+in terms of what they're made of. They consist of a (usually) circular membrane, held
+tight by a thin frame. Sometimes they have jingly-janglies on them (like a tambourine,
+which is a type of frame drum), but this one doesn't.
+
+This SynthDef is literally just a modal model for a vibrating circular membrane, and it
+gets very close to the sounds of some frame drums. The massive list of numbers in
+freqArray just comes from MATLAB's solutions to bessel functions, which describe how fast
+a circle wobbles when you hit it. It's harder to model the amplitudes of a circular
+membrane, so I just made a rough estimate for those, based on the nodes for each mode,
+where the amplitude of that mode will always be 0. The nodes look like a superposition
+of a number of rings on the circle and a number of diameter-slices through the circle,
+depending on the number of the mode.
+
+Using that information, it's possible to get a rough estimate of how the timbre of the
+drum changes depending on how far from the center of the circle you hit it. This is
+controlled by position, where 0 is the center of the drum and 1 is the edge. This is
+very key to making the drum sound more realistic in my demo.
+
+On a real drum, the fundamental isn't usually the first frequency mode. This is because
+the shape of the first mode causes it to decay faster than the others, so it's not as
+noticeable. I've seen the sound from the first mode referred to as a "thump", so I added
+thumpAmp and thumpDec to provide some control over this sound.
+
+Another thing in this SynthDef is exBlend, which blends from an impulse at -1 to a short
+burst of brown noise at 1. Mixing the two together sounds more like a hand hitting the
+drum in my opinion, but that's pretty subjective. Play around with it!
 
 By Josh Mitchell, July 2020
 */
 
-(
 SynthDef(\frameDrum, {
 	arg
 	// Standard values
-	out = 0, freq = 160, amp = 0.5, att = 0.0001, hold = 0, dec = 0.05, rel = 2.5, pan = 0, crv = 0,
-	// Other controls
-	downDecCoef = 0.5, acrossDecCoef = 0.5, position = 0.8, slope = 0.5,
-	thumpAmp = 0.7, thumpDec = 0.2;
+	out = 0, pan = 0, freq = 170, amp = 0.5, att = 0.0025, dec = 0.0025, rel = 5, crv = 0,
+	// Other controls (position goes from 0 to 1, blend from -1 to 1)
+	decCoef = 0.225, position = 0.8, thumpAmp = 0.5, thumpDec = 0.2, exBlend = 0;
 
 	var exciter, freqArray, ampRowArray, ampArray, decArray, snd;
 
+	// An Array of bessel function solutions, normalized to 1 at the fundamental
 	freqArray = [
 		[ 0.6276, 1, 1.3403, 1.6651, 1.9804, 2.2892, 2.5931, 2.8933,
 		  3.1905, 3.4852, 3.7778, 4.0686, 4.3579, 4.6458, 4.9325, 5.2182 ],
@@ -50,38 +76,42 @@ SynthDef(\frameDrum, {
 		  16.0575, 16.4353, 16.8103, 17.1829, 17.5531, 17.921, 18.2869, 18.6507 ],
 	];
 
+	// Amplitudes corresponding to nodes that look like slices
 	ampRowArray = Array.fill(16, {
 		arg i;
 		if (i == 0)
 			{ thumpAmp }
 			{
-		        (1 - (2 * (4 * i) * sin(pi/(2 * i))/(3 * pi))) *
-		        (
+			    (
+				    ((3pi).pow(2) - (24pi * i * sin((pi/2)/i))) *
 		            (
-			        	((4 * i) * sin(pi/(2 * i))/(3 * pi)).pow(2) -
-		                ((4 * i) * sin(pi/(2 * i))/(3 * pi))
+			        	((4 * i) * sin((pi/2)/i)).pow(2)/(3 * pi) -
+		                ((4 * i) * sin((pi/2)/i))
 		            ).pow(-2)
 	            ) *
 		        (
 			        position.pow(3) - position +
 			        (
 			        	(position - position.pow(2)) *
-			            ((3 * ((4 * i) * sin(pi/(2 * i))/(3 * pi)).pow(2)) - 1)/
-			            ((2 * ((4 * i) * sin(pi/(2 * i))/(3 * pi))) - 1)
+					    ((16/3 * (i * sin((pi/2)/i)).pow(2)) - pi.pow(2))/
+					    ((8pi/3 * i * sin((pi/2)/i)) - pi.pow(2))
 			        )
 		        )
 		    }
 	});
 
+	// Amplitudes corresponding to nodes that have rings
 	ampArray = Array.fill2D(16, 16, {
 		arg i, j;
-		if (freqArray[i][j] > 20000)
+		(if (freqArray[i][j] > 20000)
 	    	{ 0 }
 		    {
-		        cos(pi * position * ((2 * i) + 1)/2) * ampRowArray[j]
+				cos(position * ((i * pi) + pi/2)) * ampRowArray[j]
 		    }
+		)
 	});
 
+	// Decay times
 	decArray = Array.fill2D(16, 16, {
 		arg i, j;
 		(
@@ -89,22 +119,24 @@ SynthDef(\frameDrum, {
 		        { thumpDec }
 		        { 1 }
 		) *
-		exp(-1 * i * downDecCoef) *
-		exp(-1 * j * acrossDecCoef)
+		exp(-1 * (i + j) * decCoef)
 	});
 
 	// Exciter
-	exciter = Env.linen(
+	exciter = Env.perc(
 		attackTime: att,
-		sustainTime: hold,
 		releaseTime: dec,
-		level: 0.01,
+		level: 0.05,
 		curve: crv).ar;
+	exciter = XFade2.ar(
+		inA: exciter,
+		inB: BrownNoise.ar(exciter),
+		pan: exBlend);
 
 	// Bank of resonators
 	snd = Array.fill(16, {
 		arg i;
-			DynKlank.ar(
+			Klank.ar(
 		        specificationsArrayRef:
 		    	    Ref.new([freqArray[i], ampArray[i], decArray[i]]),
 		        input: exciter,
@@ -117,43 +149,13 @@ SynthDef(\frameDrum, {
 	snd = Mix.ar(snd) * amp;
 	snd = Limiter.ar(snd);
 
-	DetectSilence.ar(in: snd, doneAction: 2);
+	DetectSilence.ar(in: snd, amp: 0.00025, doneAction: 2);
 
 	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
 	credit: "by Josh Mitchell",
-	category: \misc,
-	tags: [\pitched, \modal]
+	category: \percussion,
+	tags: [\unpitched, \modal]
 )
 ).add;
-)
-
-Synth(\frameDrum);
-
-//FreqScope.new;
-//Stethoscope.new;
-
-//o = ServerOptions.new
-//o.memSize = 262144
-
-(
-Pbindef( \frameDrum,
-	\instrument, "frameDrum",
-	\dur, 0.165,
-	\legato, 0.25,
-	\freq, 160,
-	\rel, Pseq([
-		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.5, 1, 0.5,
-		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.5, 1, 0.5, 1, 0.5
-	] * 2.25, inf),
-	\dec, 0.02,
-	\amp, Pseq([
-		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.5, 1, 0.5,
-		1, 0.5, 1, 0.5, 1, 0.5, 0.5, 1, 0.2, 1, 0.75, 1, 0.75
-	], inf),
-	\position, Pseq([
-		0.15, 0.9, 0.15, 0.9, 0.75, 0.9, 0.9, 0.15, 0.9, 0.75, 0.9,
-		0.15, 0.9, 0.15, 0.9, 0.75, 0.9, 0.9, 0.15, 0.9, 0.75, 0.9, 0.85, 0.9], inf) + Pwhite(-0.1, 0.1),
-).play;
-)
