@@ -1,5 +1,5 @@
-Pbindef(\musicbox,
-	\instrument, "musicbox",
+Pbindef(\musicBox,
+	\instrument, "musicBox",
 	\mix, 0.25,
 	\slope, 0,
 	\dur, Pseq([
