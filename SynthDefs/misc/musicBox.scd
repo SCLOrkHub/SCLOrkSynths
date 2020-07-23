@@ -4,7 +4,7 @@ check out modalmarimba.scd. Essentially, everything in the "Modal Stuff" section
 modeling a physical beam that's clamped at one end and hit at the other (just like the
 tines in a real music box!)
 
-The decay coefficient (decaycoef) does a lot to determine the timbre, position simulates
+The decay coefficient (decCoef) does a lot to determine the timbre, position simulates
 the position on the beam in which it's hit (0.5 is the middle), and slope is the db/oct
 slope of a filter with a constant slope across the audio range.
 
@@ -18,12 +18,12 @@ decay a bit, and freeverb, because a) it's metallic sounding, and b) reverb is s
 By Josh Mitchell June 2020.
 */
 
-SynthDef(\musicbox, {
+SynthDef(\musicBox, {
 	arg
 	// Standard values
 	out = 0, freq = 1000, amp = 0.1, att = 0, dec = 1, rel = 3, pan = 0,
 	// Other controls
-	decaycoef = 0.25, slope = 3, filterfreq = 4000, expratio = 2,
+	decCoef = 0.25, ampSlope = 3, filterfreq = 4000, expRatio = 2,
 	// These controls go from 0 to 1
 	position = 0.1, thresh = 0.75, mix = 0.1, size = 0.6, revdamp = 0;
 
@@ -39,22 +39,29 @@ SynthDef(\musicbox, {
 
 	// Array of amplitudes
 	amparray = Array.fill(30, { arg i;
-		sin((i + 1) * position * pi) * // Models object being hit in a certain location
-		(slope * (i + 1).log2).dbamp * // Models vibrations in object moving to the air
-		(1 + exp(100 * (freqarray[i]-20000)))}); // Super steep LPF at 20000 hz
+		if (freqarray[i] > 20000)
+		    { 0 }
+		    {
+			    sin(((i + 1) * pi) * position) *
+		        (ampSlope * (freqarray[i]).log2).dbamp
+		    }
+	});
 
 	// Array of Decay times
 	decarray = Array.fill(30, { arg i;
-		exp(-1 * i * decaycoef)}); // The decay times are dropping off exponentially
+		exp(-1 * i * decCoef)
+	});
+	decarray = decarray/decarray[0];
 
 	// Hit the object
 	exciter = Decay2.ar(
 		in: Impulse.ar(0),
 		attackTime: att,
-		decayTime: dec);
+		decayTime: dec, 
+		mul: 0.1);
 
 	// Bank of resonators
-	snd = DynKlank.ar(
+	snd = Klank.ar(
 		specificationsArrayRef: Ref.new([freqarray, amparray, decarray]),
 		input: exciter,
 		freqscale: freq,
@@ -71,7 +78,7 @@ SynthDef(\musicbox, {
 		in: snd,
 		thresh: thresh,
 		slopeBelow: 1,
-		slopeAbove: expratio);
+		slopeAbove: expRatio);
 	// Reverb for a more haunted, metalic sound
 	snd = FreeVerb.ar(
 		in: snd,
