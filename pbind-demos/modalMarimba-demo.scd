@@ -1,5 +1,5 @@
-Pbindef(\modalmarimba,
-	\instrument, "modalmarimba",
+Pbindef(\modalMarimba,
+	\instrument, "modalMarimba",
 	\ctranspose, 8,
 	\rel, 0.4,
 	\dur, 1/5.5,
@@ -13,6 +13,6 @@ Pbindef(\modalmarimba,
 		[0, 7], \rest, [0, 6], \rest, \rest, [0, 7], \rest, [0, 6], \rest, \rest,
 		[0, 7], \rest, [0, 6]
 	], 1),
-	\amp, 0.2,
+	\amp, 0.25,
 	\position, Pwhite(0.65, 0.85),
 );
