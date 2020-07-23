@@ -7,7 +7,7 @@ added in. That's why it's an abstract drum, it's a terrifying jumble of shapes
 just like abstract art!
 
 Position (where on the "string" from 0 to 1 at either end it's plucked) and
-decayCoef determine the timbre of each note, along with hiFreqSus, which makes
+decCoef determine the timbre of each note, along with hiFreqSus, which makes
 the sound's high frequencies sustain longer as it increases from 0. At really
 high values, all the values in decArray are essentially the same. This makes
 the sound seem more metallic in a way that reminds me of fm synthesis.
@@ -23,11 +23,11 @@ SynthDef(\abstractDrum, {
 	// Standard values
 	out = 0, freq = 140, amp = 1, pan = 0, att = 0.001, dec = 0.01, rel = 1,
 	// Other Controls (position goes from 0 to 1)
-	position = 0.5, ampSlope = 3, decayCoef = 0.15, hiFreqSus = 0;
+	position = 0.5, ampSlope = 3, decCoef = 0.15, hiFreqSus = 0;
 
 	var freqarray, amparray, decarray, exciter, snd;
 
-	// Setting up arrays for DynKlank
+	// Setting up arrays for Klank
 	freqarray = Array.fill(8, {
 		arg i = 1;
 		(
@@ -46,7 +46,7 @@ SynthDef(\abstractDrum, {
 		if (freqarray[i] > 20000)
 			{ 0 }
 			{
-			    (sin((i+1) * position * pi)) *
+			    sin(((i + 1) * pi) * position) *
 		        (ampSlope * (freqarray[i]).log2).dbamp
 		    }
 	});
@@ -54,7 +54,7 @@ SynthDef(\abstractDrum, {
 
 	decarray = Array.fill(36, {
 		arg i;
-		exp(-1 * i * decayCoef) + hiFreqSus
+		exp(-1 * i * decCoef) + hiFreqSus
 	});
 	decarray = decarray/decarray[0];
 
@@ -66,7 +66,7 @@ SynthDef(\abstractDrum, {
 		mul: 0.005); // This keeps the volume at a sane level
 
 	// The actual sound-makey part
-	snd = DynKlank.ar(
+	snd = Klank.ar(
 		specificationsArrayRef:
 		    Ref.new([freqarray, amparray, decarray]),
 		input: exciter,
