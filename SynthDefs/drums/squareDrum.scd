@@ -5,13 +5,13 @@ Get it? Square drum?
 
 A common Problem in modal synthesis is how computationally expensive it is. Generating a
 sound with 36 modes, for example (like below), takes a bank of 36 individual resonators.
-Thanks to how simple DynKlank is to use, this doesn't look like a problem, but it can add
+Thanks to how simple Klank is to use, this doesn't look like a problem, but it can add
 up fast. That's why this drum uses a square shape for the "drum head"; it can create more
 higher-frequency modes with a smaller array than for a circle or other shape. This means
 it's less computationally expensive for the same modes at the initial attack of the
 virtual drum stick, at the cost of a tiny bit of accuracy to a physical snare drum.
 
-decayCoef determines some of the timbre of the head, and ampSlope is the constant slope
+decCoef determines some of the timbre of the head, and ampSlope is the constant slope
 of a dB/oct filter.
 
 A snare drum's snares themselves are really, really impractical to replicate in modal
@@ -36,14 +36,14 @@ SynthDef(\squareDrum, {
 	// Stick Controls
 	att = 0.001, dec = 0.01,
 	// Head Controls
-	headAmp = 0.5, decayCoef = 0.175, ampSlope = 3, rel = 0.2,
+	headAmp = 0.5, decCoef = 0.175, ampSlope = 3, rel = 0.2,
 	// Snares Controls (thresh goes from 0 to 1)
 	snaresAmp = 0.65, followAtt = 0.005, followRel = 0.075, thresh = 0.25,
 	snareGate = 0.6, rq = 0.5;
 
 	var freqarray, amparray, decarray, stick, head, snares, snd;
 
-	// Setting up arrays for DynKlank
+	// Setting up arrays for Klank
 	freqarray = Array.fill(8, {
 		arg i = 1;
 		(
@@ -69,7 +69,7 @@ SynthDef(\squareDrum, {
 
 	decarray = Array.fill(36, {
 		arg i;
-		exp(-1 * i * decayCoef)
+		exp(-1 * i * decCoef)
 	});
 	decarray = decarray/decarray[0];
 
@@ -81,7 +81,7 @@ SynthDef(\squareDrum, {
 		mul: 0.005); // This keeps the volume at a sane level
 
 	// Drum Head
-	head = DynKlank.ar(
+	head = Klank.ar(
 		specificationsArrayRef:
 		    Ref.new([freqarray, amparray, decarray]),
 		input: stick,
@@ -96,7 +96,7 @@ SynthDef(\squareDrum, {
 		    releaseTime: followRel));
 	snares = CompanderD.ar(
 		in: snares,
-		thresh: thresh.clip(0, 1),
+		thresh: thresh,
 		slopeBelow: 1 + snareGate.clip(0, inf));
 	snares = BRF.ar(
 		in: snares,
