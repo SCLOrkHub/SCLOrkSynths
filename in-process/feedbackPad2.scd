@@ -10,8 +10,8 @@ SynthDef(\feedbackPad2, {
 	// Controls for ampEnv
 	att = 0.5, dec = 0.1, sus = 1, rel = 1.5, crv = 0,
 	// Controls for fbEnv
-	fmStartStop = 0, fmAtt = 1, fmPeak = 5, fmDec = 0.5,
-	fmSus = 3, fmRel = 1,
+	fmStartStop = 0, fmAtt = 1, fmPeak = 1, fmDec = 0.5,
+	fmSus = 4, fmRel = 1,
 	// Confrols for delEnv
 	del = 0.1, selfFM = 10;
 
