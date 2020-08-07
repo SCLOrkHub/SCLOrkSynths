@@ -15,7 +15,7 @@ SynthDef(\ms20, {
 	// Controls for modGen
 	modRate = 18, modShape = 0.5, vibrato = 5, hpfModDepth = 10, lpfModDepth = 10,
 	// Controls for oscillators
-	waveform1 = 1, pw = 0.5, waveform2 = 2, octave2 = 1, pitch2 = -5, oscBlend = 0,
+	waveform1 = 2, pw = 0.5, waveform2 = 3, pitch2 = 7, oscBlend = 0.5,
 	// Controls for filters
 	preamp = 1, hpfFreq = 200, lpfFreq = 900, hpfPeak = 2.5, lpfPeak = 2.5;
 
@@ -49,7 +49,7 @@ SynthDef(\ms20, {
 
 // Oscilators
 	// Oscilator 1 Pitch Input
-	osc1Control = freq + LFNoise2.ar(0.05).range(-0.01, 0.01);
+	osc1Control = freq;// + LFNoise2.ar(0.05).range(-0.01, 0.01);
 	osc1Control = osc1Control + (modGen * vibrato);
 	osc1Control = osc1Control * env1;
 
@@ -64,14 +64,9 @@ SynthDef(\ms20, {
 	]);
 
 	// Oscilator 2 Pitch Input
-	shiftOsc2 = 2.pow(octave2.clip(-2, 4).round(1));
-	shiftOsc2 = shiftOsc2.ratiomidi + pitch2.clip(-5, 5).round(1);
-	shiftOsc2 = shiftOsc2.midiratio;
-
-	osc2Control = freq + LFNoise2.ar(0.05).range(-0.01, 0.01);
+	osc2Control = freq;// + LFNoise2.ar(0.05).range(-0.01, 0.01);
 	osc2Control = osc2Control + (modGen * vibrato);
-	osc2Control = osc2Control * env1;
-	osc2Control = osc2Control * shiftOsc2;
+	osc2Control = osc2Control * env1 * pitch2.midiratio;
 
 	// Oscillator 2
 	osc2 = Select.ar(
@@ -169,7 +164,7 @@ FreqScope.new;
 (
 PmonoArtic( \ms20,
 	\instrument, "ms20",
-	\freq, Prand([100, 150, 120, 200], inf) * 3.5,
+	\freq, Prand([100, 150, 120, 200], inf) * 1,
 	\dur, Pseq([0.175], inf),
 	\legato, Prand([0.5, 1.5], inf),
 ).play;
