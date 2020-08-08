@@ -45,7 +45,7 @@ SynthDef(\ms20, {
 		decayTime: dec,
 		sustainLevel: sus,
 		releaseTime: rel,
-		curve: -3).delay(hold).ar(gate: gate);
+		curve: -3).delay(hold).ar(gate: gate, doneAction: 2);
 
 // Oscilators
 	// Oscilator 1 Pitch Input
