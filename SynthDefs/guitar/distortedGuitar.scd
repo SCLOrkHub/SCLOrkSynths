@@ -115,7 +115,7 @@ SynthDef(\distortedGuitar, {
 },
 metadata: (
 	credit: "Josh Mitchell",
-	category: \inProcess,
+	category: \guitar,
 	tags: [\pitched]
 	)
 ).add;
