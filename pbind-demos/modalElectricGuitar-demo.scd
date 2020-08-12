@@ -1,0 +1,38 @@
+Pbindef( \modalElectricGuitar,
+	\instrument, "modalElectricGuitar",
+	\ctranspose, -22,
+	\dur, Pseq([
+		Pwhite(0.5, 0.8, 4), Pwhite(0.65, 0.9, 2), Rest(1),
+		1/4, Rest(1/4), 1/4, 1/4, Rest(1/4), 1/4, 1/4, 1/4,
+		1/4, Rest(1/4), 1/4, 1/4, Rest(1/4), 1/4, 1/4, 1/4,
+		1/4, Rest(1/4), 1/4, 1/4, Rest(1/4), 1/4, 1/4, 1/4,
+		1/4, Rest(1/4), 1/4, 1/4, Rest(1/4), 1/4, 1/4, 1/4,
+		1/2, 1/2, 5]) * 0.9,
+	\rel, 3.5,
+	\decayCoef, 0.125,
+	\strum, Pseq([
+		Pn(0, 7),
+		Pseq([1, -1], 16),
+		1.2, 1.5, 3]) * Pwhite(0.015, 0.025),
+	\degree, Pseq([
+		3, 7, 10, 12, 11, 14, \rest,
+		Pn([3, 7, 10, 12, 11, 14], 8),
+		Pn([4, 8, 11, 13, 11, 14], 8),
+		Pn([5, 9, 12, 14, 11, 14], 6),
+		Pn([4, 8, 11, 13, 11, 14], 10),
+		Pn([3, 7, 10, 12, 11, 14], 2),
+		[0, 4, 7, 11, 11, 14]]),
+	\openStringFreq, Pseq([ // Tuned to DADGAD because it's pretty.
+		38, 45, 50, 55, 57, 62, \rest,
+		Pn([38, 45, 50, 55, 57, 62])]).midicps,
+	\pickPos, Pwhite(0.2, 0.3),
+	\pickupPos, 0.27,
+	\pickupWidth, 0.67,
+	\muteSus, Pseq([
+		Pn(5, 7),
+		1/2, \rest, 1/4, 1/2, \rest, 1/4, 1/4, 1/4,
+		1/2, \rest, 1/4, 1/2, \rest, 1/4, 1/4, 1/4,
+		1/2, \rest, 1/4, 1/2, \rest, 1/4, 1/4, 1/4,
+		1/2, \rest, 1/4, 1/2, \rest, 1/4, 1/4, 1/4,
+		1/2, 1/2, 5]) * 0.865,
+);
