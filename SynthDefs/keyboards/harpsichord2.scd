@@ -43,7 +43,7 @@ SynthDef(\harpsichord2, {
 
 	// Output Stuff
 	snd = Mix.ar(root + octave);
-	snd = Limit.ar(snd);
+	snd = Limiter.ar(snd);
 
     DetectSilence.ar(in: snd, doneAction: 2);
 
