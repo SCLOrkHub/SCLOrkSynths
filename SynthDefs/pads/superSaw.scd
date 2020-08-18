@@ -46,7 +46,7 @@ SynthDef(\superSaw, {
 		arg i, j;
 		if (j == 1)
 		{ (numberOscs - i).tanh.clip(0, 1).sign }
-		{ (stepSize * i) + (freq - detuneHz) }
+		{ ((stepSize * i) + (freq - detuneHz)).clip(20, 20000) }
 	});
 	faArray = faArray.scramble.flop;
 
