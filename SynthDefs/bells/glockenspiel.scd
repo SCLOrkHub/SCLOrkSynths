@@ -36,6 +36,8 @@ SynthDef(\glockenspiel, {
 		        doneAction: 2
 		    );
 
+	snd = snd * 0.1;
+
 	Out.ar(out, Pan2.ar(snd, pan, amp));
 },
 metadata: (

@@ -32,7 +32,7 @@ var footer1, footer2;
 var currentSynthText;
 var banks = PathName.new(Document.current.dir +/+ "SynthDefs").folders.collect({ arg p; p.folderName.asSymbol});
 
-Window.closeAll;
+// Window.closeAll;
 
 window = Window.new(
 	name: "SCLOrkSynths",

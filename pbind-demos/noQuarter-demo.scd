@@ -16,5 +16,5 @@ Pbindef(\noQuarter,
 	]) * 0.56,
 	\att, 0,
 	\rel, 1,
-	\amp, 1
+	\amp, 0.7
 );

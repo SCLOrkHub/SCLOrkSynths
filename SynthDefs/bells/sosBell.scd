@@ -57,6 +57,8 @@ SynthDef("sosBell", {
 
 	DetectSilence.ar(in: snd, doneAction: 2);
 
+	snd = snd * 0.5;
+
     Out.ar(out, Pan2.ar(snd, pan));
 
 

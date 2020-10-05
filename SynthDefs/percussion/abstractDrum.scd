@@ -74,7 +74,7 @@ SynthDef(\abstractDrum, {
 		decayscale: rel);
 
 	// Output Stuff
-	snd = Mix.ar(snd * amp);
+	snd = Mix.ar(snd * amp * 2);
 	snd = Limiter.ar(snd);
 
 	DetectSilence.ar(in: snd, doneAction: 2);

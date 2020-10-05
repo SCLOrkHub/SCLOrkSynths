@@ -13,7 +13,9 @@ SynthDef("kraftySnare", {
 
 	snd = PinkNoise.ar(amp);
 
-	snd = BPF.ar(snd, freq, rq, env);
+	snd = BPF.ar(snd, freq, rq, env * rq.reciprocal * 2);
+
+	snd = Limiter.ar(snd);
 
 	Out.ar(out, Pan2.ar(snd, pan));
 },

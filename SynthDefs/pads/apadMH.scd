@@ -8,7 +8,7 @@ FreeVerb.ar added by Josh Mitchell.
 Modified by Bruno Ruviaro and Josh Mitchell 8/19.
 */
 
-SynthDef(\apad_mh, {
+SynthDef(\apadMH, {
 	arg
 	//Standard Values:
 	out = 0, pan = 0, freq = 880, amp = 0.5, att = 0.4, dec = 0.5, sus = 0.8, rel = 1.0, gate = 1,

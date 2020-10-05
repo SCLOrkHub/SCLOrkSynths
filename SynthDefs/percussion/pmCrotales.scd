@@ -22,7 +22,7 @@ SynthDef("pmCrotales", {
 
 	snd = HPF.ar(snd, freq / 2);
 
-	snd = Mix.ar(snd);
+	snd = Mix.ar(snd) * 0.1;
 
 	Out.ar(out, Pan2.ar(snd, pan));
 },

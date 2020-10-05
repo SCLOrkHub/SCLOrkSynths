@@ -1,5 +1,5 @@
-Pbindef( \apad_mh,
-	\instrument, "apad_mh",
+Pbindef( \apadMH,
+	\instrument, "apadMH",
 	\dur, 4,
 	\tremoloRate, Pwhite(4.0, 6.0, inf),
 	\ctranspose, -5,
