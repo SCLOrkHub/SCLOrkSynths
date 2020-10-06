@@ -7,10 +7,13 @@ Anyone is welcome to suggest new SynthDefs for the collection.
 
 Main contributors:
 
-Bruno Ruviaro @brunoruviaro - team director; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
-Josh Mitchell @joshmit - research assistant; responsible for standardizing coding conventions, rewriting SynthDefs to clarify or improve them, adding new amazing original SynthDefs
-Meha Gupta @mehagupta - volunteer; initial gathering and upload of SynthDefs from mailing lists and public forums; contribution of additional demos
-Diya Menon - volunteer; contribution of additional pattern demos
+*Bruno Ruviaro* @brunoruviaro - team director; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
+
+*Josh Mitchell* @joshmit - research assistant; responsible for standardizing coding conventions, rewriting SynthDefs to clarify or improve them, adding new amazing original SynthDefs
+
+*Meha Gupta* @mehagupta - volunteer; initial gathering and upload of SynthDefs from mailing lists and public forums; contribution of additional demos
+
+*Diya Menon* - volunteer; contribution of additional pattern demos
 
 Most SynthDefs have their original author credited in the corresponding scd file. However, we could not identify the author for a few SynthDefs. Please let us know if you know the source of a SynthDef that has no author name, we'll be happy to add it.
 
