@@ -1,0 +1,74 @@
+TITLE:: SCLOrkSynths
+summary:: A collection of over one hundred SynthDefs with accompanying Pattern demos.
+categories:: Quarks, Live Coding, Education
+
+DESCRIPTION::
+An easy-to-use collection of SynthDefs and accompanying demos (typically a Pbindef showcasing the SynthDef).
+
+This project was originally created for students in the Santa Clara Laptop Orchestra (SCLOrk) and is now made available publicly. Many of the SynthDefs were borrowed and adapted from existing code available online. Many other SynthDefs were written just for this project.
+
+We credit to the author of each SynthDef inside its corresponding file, with a link to where we found the original code. If you know the author of any of uncredited SynthDefs included here, please send us an email or open an issue on git and we will be glad to add it.
+
+subsection:: How to contribute
+Everyone is welcome to contribute to SCLOrkSynths. The github page for this project is: https://github.com/SCLOrkHub/SCLOrkSynths
+
+subsection:: First code example
+The easiest way to browse the collection is through the GUI:
+
+code::
+SCLOrkSynths.gui;
+::
+
+This will open a user interface that allows you to pick any SynthDef and listen to their demo using the Play button. SynthDefs are organized by 'banks', such as drums, pads, bass, etc. The Show Me The Code button will open a new SuperCollider document with a copy of the selected SynthDef code and the pattern demo. You can safely modify and play around with this code as it is just a copy of the underlying original code.
+
+
+CLASSMETHODS::
+
+METHOD:: directory
+Posts a list of all available SynthDefs.
+
+METHOD:: load
+Adds all SynthDefs to the audio server. This will boot the server if it is not already running. All pattern demos are also loaded.
+
+METHOD:: synthDictionary
+Returns the Dictionary where the collection is stored.
+code::
+SCLOrkSynths.synthDictionary; // the Dictionary
+
+SCLOrkSynths.synthDictionary[\hihat1]; // Each entry is itself a sub-dictionary, containing entries such as the path to the SynthDef file and to the demo file, and the bank name.
+::
+
+
+METHOD:: showMeTheCode
+Opens a new SuperCollider document with a copy of the SynthDef code and the pattern demo.
+argument:: synth
+(symbol or string) the name of a SynthDef in the collection.
+
+
+
+METHOD:: gui
+Opens the Graphical User Interface to browse and audition the collection.
+code::
+SCLOrkSynths.gui;
+::
+
+
+METHOD:: window
+Returns the GUI window (assuming the GUI is open).
+code::
+SCLOrkSynths.window;
+
+SCLOrkSynths.window.moveTo(0, 340);
+::
+
+
+METHOD:: folderPath
+Posts the full path to the SCLOrkSynths folder.
+
+
+EXAMPLES::
+
+code::
+// Open the GUI to browse the collection:
+SCLOrkSynths.gui;
+::

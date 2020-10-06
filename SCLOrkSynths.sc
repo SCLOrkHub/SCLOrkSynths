@@ -1,7 +1,7 @@
 
 SCLOrkSynths {
 
-	classvar <window, <bankPathsArray, <patternPathsArray, <synthDictionary, <folderPath;
+	classvar <window, bankPathsArray, patternPathsArray, <synthDictionary, <folderPath;
 
 	// add all SynthDefs (checks if server is on)
 	// optional: force reboot server to ensure right memSize and stuff?
@@ -10,20 +10,20 @@ SCLOrkSynths {
 		/*
 		Creates a Dictionary of Dictionaries holding relevant info about each synth:
 		Dictionary[
-		(synthName1 ->
-		Dictionary[
-		(bank -> bank),
-		(synthPath -> path),
-		(patternPath -> path)
-		],
-		),
-		(synthName2 ->
-		Dictionary[
-		(bank -> bank),
-		(synthPath -> path),
-		(patternPath -> path)
-		],
-		),
+		  (synthName1 ->
+		     Dictionary[
+		      (bank -> bank),
+		      (synthPath -> path),
+		      (patternPath -> path)
+		     ],
+		  ),
+		  (synthName2 ->
+		     Dictionary[
+		       (bank -> bank),
+		       (synthPath -> path),
+		       (patternPath -> path)
+		     ],
+		   ),
 		... etc
 		]
 		*/
@@ -51,7 +51,6 @@ SCLOrkSynths {
 
 		// this is the single big dictionary
 		synthDictionary = Dictionary.new;
-
 
 		// iterate through list of bank PathNames
 		bankPathsArray.do({ arg bankPath;
@@ -86,28 +85,7 @@ SCLOrkSynths {
 
 	}
 
-
-
-
-
-
-	// Test it:
-	/*
-	synthDictionary[\kalimba][\bank];
-	synthDictionary[\kalimba][\patternPath];
-	synthDictionary[\kalimba][\synthPath];
-
-	synthDictionary[\cheapPiano1][\bank];
-	synthDictionary[\cheapPiano1][\patternPath];
-	synthDictionary[\cheapPiano1][\synthPath];
-
-
-	synthDictionary.keysValuesDo({ arg key, value; key.postln; value.keys.postln });
-	*/
-
-
-
-	// LOAD all SynthDefs and Pbindefs:
+	// Load all SynthDefs and Pbindefs:
 	*load {
 
 		Server.default.waitForBoot({
@@ -123,7 +101,7 @@ SCLOrkSynths {
 		});
 	}
 
-	// create GUI
+	// Create GUI
 	*gui {
 
 		var header;
@@ -269,10 +247,11 @@ SCLOrkSynths {
 					height: 50
 				)
 			)
-			.string_("nothing")
+			.string_("open more demos")
 			// .font_(Font(Font.default.name, 18))
 			.action_({ arg button;
 				// button.value.postln;
+				SCLOrkSynths.prOpenMoreDemos(currentSynth);
 			})
 			.front;
 
@@ -379,116 +358,41 @@ SCLOrkSynths {
 			++
 			".play;\n);"
 		).front;
-
 	}
 
-	// prints only banks (folder names)
-	*listBanks {
-		"list all banks".postln;
+
+	*prOpenMoreDemos { |synth|
+		var extraDemosPath;
+		var pString, pStringLastAscii;
+		extraDemosPath = SCLOrkSynths.folderPath +/+ "pbind-demos" +/+ synth.asString ++ "-demo-extras.scd";
+		// Check if there is an demos-extra files for this SynthDef before proceeding
+		if( PathName(extraDemosPath).isFile, {
+			pString = String.readNew(File.new(extraDemosPath, "r"));
+
+			while(
+				{pStringLastAscii != 41}, // while this is *not* a ")" (ascii 41)
+				// remove last characters until reaching the parenthesis:
+				{
+					pString = pString.drop(-1);
+					pStringLastAscii = pString.last.ascii;
+					// ["last ascii now is", lastAscii].postln;
+				}
+			);
+
+			Document.new(
+				title: synth.asString ++ " extra demos",
+				string: pString
+			).front;
+		}, {
+			"There are no additional demos for this SynthDef.".postln;
+		});
 	}
 
-	// prints directory of all synthDefs
+	// Prints directory of all synthDefs
 	*directory {
-
 		var list = synthDictionary.keys.asArray.sort;
 		list.do({ |k| k.postln; });
 		(list.size.asString ++ " Synth Definitions available").postln;
 	}
 
-
-	/*
-	*run { |name| actions[name].value }
-
-	*add { |name, action|
-	if (name.isNil) {
-	//	"Butz.add: cannot add action without name, so ignored.\n"
-	^this
-	};
-	if (action.isNil and: actions[name].notNil) {
-	// "Butz.add: protects from overwriting an existing action with nil, so ignored.\n"
-	// "to remove an action, use Butz.remove(<name>).".postln;
-	^this
-	};
-
-	actions.add(name, action);
-	if (butz.notNil) {
-	this.setButton(actions.names.indexOf(name));
-	}
-	}
-
-	*remove { |name|
-	actions.removeAt(name);
-	if (butz.notNil) { this.updateButtons }
-	}
-
-	*clear {
-	actions.clear;
-	this.updateButtons;
-	}
-
-	*show {
-	if (w.notNil) {
-	try { w.front };
-	^this
-	};
-	this.makeWin;
-	}
-
-	*makeWin {
-	var style = Butz.style;
-	var win = Window(style.name, style.winExtent.asRect);
-	var numB = max(Butz.numButz, Butz.actions.size);
-	var winLocX = style.winLoc.x;
-	var winLocY = Window.screenBounds.height - style.winLoc.y;
-
-	w = win;
-	w.alwaysOnTop_(true).userCanClose_(false);
-	w.background_(style.winCol);
-	w.layout = VLayout(
-	*(butz = numB.collect {
-	Button(w).states_([this.blankState]).font_(style.font)
-	})
-	);
-
-	^win.moveTo(winLocX, winLocY).front;
-	}
-
-	*showButs { |butsToShow, wait = 0.01|
-	var bnds = Butz.w.bounds;
-	var bottom = bnds.bottom;
-	var left = bnds.left;
-	butsToShow = butsToShow ? Butz.butz.size;
-	fork ({
-	Butz.butz.do { |but, i|
-	but.visible_(i < butsToShow);
-	};
-	wait.wait;
-	Butz.w.bounds_(Rect(left, bottom, 120, 24));
-	}, AppClock);
-	}
-
-	*blankState { ^[ " . . . ", style.fontCol, style.butCol ] }
-
-	*setButton { |index|
-	var but, name, action;
-
-	but = butz[index];
-	but ?? {
-	"*** %: no button at index % for %!\n".postf(this, index, name.cs);
-	^this
-	};
-	name = actions.names[index] ? " . . . ";
-	action = action ? actions[index];
-
-	but.states.do { |state| state.put(0, name) };
-
-	defer { but.states_(but.states) };
-	but.action = action;
-	}
-
-	*updateButtons {
-	butz.do { |bt, i| this.setButton(i) }
-	}
-
-	*/
-}
+} // end of SCLOrkSynths class definition
