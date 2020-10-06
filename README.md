@@ -23,11 +23,11 @@ SynthDefs should have the following arguments (default values encouraged but fle
 
 * out = 0, to be used in Out.ar(out, ...)
 * pan = 0, to be used in Out.ar(out, Pan2.ar(snd, pan))
-* freq = 440, always the main freq for pitched synths
-* amp = 0.2, always the main amplitude of the final sound
+* freq = 440, for pitched synths
+* amp = 0.2, for global amp of synth
 * att = 0.01, attack time of the main amplitude envelope
 * rel = 1, release time of amplitude envelope
-* sus = 1, sustain amount (as in a typical ADSR)
+* sus = 1, sustain level (as in a typical ADSR)
 * dec = 0.1, decay time (as in typical ADSR)
 * gate = 1, if using envelopes like ADSR (not needed if using self terminating envs such as Env.perc)
 
