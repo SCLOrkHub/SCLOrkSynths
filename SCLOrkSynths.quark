@@ -1,0 +1,11 @@
+(
+	name: "SCLOrkSynths",
+	summary: "SynthDef collection by Santa Clara Laptop Orchestra",
+	author: "Bruno Ruviaro, Josh Mitchell, others",
+	version: "0.1",
+	schelp: "Classes/SCLOrkSynths",
+	license: "GPL",
+	copyright: "Santa Clara University 2020-2021",
+	organization: "Santa Clara Laptop Orchestra",
+	since: 2020
+)
