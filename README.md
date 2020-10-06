@@ -1,21 +1,18 @@
 SCLOrkSynths
 ======================
  
-Collection of SuperCollider SynthDefs (synth definitions).
+Collection of SuperCollider SynthDefs (synth definitions) with accompanying Pattern demos.
 
-I don't remember where I got some SynthDefs from. I will do my best to add credits and/or links to original synthdefs if I can. Please let me know if you know the source of an uncredited SynthDef.
+Anyone is welcome to suggest new SynthDefs for the collection.
 
-Feel free to suggest new SynthDef for the collection.
+Main contributors:
 
-This repository was previously named SynthDefs-for-Patterns.
+Bruno Ruviaro @brunoruviaro - team director; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
+Josh Mitchell @joshmit - research assistant; responsible for standardizing coding conventions, rewriting SynthDefs to clarify or improve them, adding new amazing original SynthDefs
+Meha Gupta @mehagupta - volunteer; initial gathering and upload of SynthDefs from mailing lists and public forums; contribution of additional demos
+Diya Menon - volunteer; contribution of additional pattern demos
 
-2019 contributors:
-
-Meha Gupta @mehagupta - initial gathering and upload of SynthDefs from mailing lists and public forums
-
-Josh Mitchell @joshmit - standardizing coding conventions, rewriting SynthDefs to clarify or improve parts of them, adding new original SynthDefs
-
-Bruno Ruviaro @brunoruviaro - team director, final review of every update, GUI creation, adding new original SynthDefs
+Most SynthDefs have their original author credited in the corresponding scd file. However, we could not identify the author for a few SynthDefs. Please let us know if you know the source of a SynthDef that has no author name, we'll be happy to add it.
 
 ## Some conventions
 
@@ -49,9 +46,7 @@ metadata: (
 ).add;
 ```
 
-BTR
-
-# 2019 UPDATE:
+# Project description from 2019:
 
 Goal: Create a pool of freely available synth definitions in SuperCollider.
 
