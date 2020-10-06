@@ -281,7 +281,9 @@ SCLOrkSynths {
 								{ button.value = 0 }.defer;
 						})).play(quant: 0);
 					},{
+						Pdef(currentSynth.asSymbol).stop;
 						Pdef(\spawner).clear;
+						Server.default.freeAll;
 					}
 				);
 				// "playing...".postln; Pdef(currentSynth.asSymbol).play });
