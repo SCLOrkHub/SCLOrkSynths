@@ -10,20 +10,20 @@ SCLOrkSynths {
 		/*
 		Creates a Dictionary of Dictionaries holding relevant info about each synth:
 		Dictionary[
-		  (synthName1 ->
-		     Dictionary[
-		      (bank -> bank),
-		      (synthPath -> path),
-		      (patternPath -> path)
-		     ],
-		  ),
-		  (synthName2 ->
-		     Dictionary[
-		       (bank -> bank),
-		       (synthPath -> path),
-		       (patternPath -> path)
-		     ],
-		   ),
+		(synthName1 ->
+		Dictionary[
+		(bank -> bank),
+		(synthPath -> path),
+		(patternPath -> path)
+		],
+		),
+		(synthName2 ->
+		Dictionary[
+		(bank -> bank),
+		(synthPath -> path),
+		(patternPath -> path)
+		],
+		),
 		... etc
 		]
 		*/
@@ -363,7 +363,7 @@ SCLOrkSynths {
 	}
 
 
-	*prOpenMoreDemos { |synth|
+	*prOpenMoreDemos { | synth |
 		var extraDemosPath;
 		var pString, pStringLastAscii;
 		extraDemosPath = SCLOrkSynths.folderPath +/+ "pbind-demos" +/+ synth.asString ++ "-demo-extras.scd";
@@ -395,6 +395,34 @@ SCLOrkSynths {
 		var list = synthDictionary.keys.asArray.sort;
 		list.do({ |k| k.postln; });
 		(list.size.asString ++ " Synth Definitions available").postln;
+	}
+
+	*synthArgs { | synth |
+
+		var sPath, sString, synthArgs, beg, end;
+
+		if( synthDictionary.keys.includes(synth.asSymbol), {
+			sPath = synthDictionary[synth.asSymbol][\synthPath];
+			sString = String.readNew(File.new(sPath, "r"));
+
+			beg = sString.find("SynthDef("); // where does SynthDef code actually begins?
+			sString = sString.drop(beg); // clip off any comments before SynthDef code
+			beg = sString.find("arg"); // index of keyword arg
+			end = sString.find(";"); // index of semicolon at end of arg list
+			sString = sString[beg..end].drop(3);
+			sString = sString.replace(",", "\n");
+			sString = sString.replace("\t", " "); // remove any tab characters
+
+			synthArgs = sString.split($\n); // we'll print one per line, including any comments
+
+			("SynthDef " ++ synth.asString ++ " args:\n").postln; // header text
+
+			synthArgs.do({ |i| i.postln }); // post one per line
+
+			^synthArgs; // return list of args juts in case
+		}, {
+			"WARNING: SynthDef does exist. Mispelled name?".postln;
+		});
 	}
 
 } // end of SCLOrkSynths class definition
