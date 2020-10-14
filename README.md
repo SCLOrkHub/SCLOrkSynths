@@ -17,6 +17,25 @@ Main contributors:
 
 Most SynthDefs have their original author credited in the corresponding scd file. However, we could not identify the author for a few SynthDefs. Please let us know if you know the source of a SynthDef that has no author name, we'll be happy to add it.
 
+## Sources
+
+Enormous thanks to all the authors who have shared SynthDef code online over the years. This repository would not be possible without them. Also thanks to an [early suggestion](https://github.com/SCLOrkHub/SCLOrkSynths/issues/2) by @meznon who inspired me to pursue this further over the years. Aside from the original SynthDefs created for this project, some of the main sources we borrowed code from were:
+
+### SynthDefPool
+Link: https://github.com/supercollider-quarks/SynthDefPool
+
+This is a quark by @crucialfelix from where we borrowed SynthDefs. We have also reused the metadata model as seen there.
+
+### sccode
+Link: http://sccode.org/ 
+
+Lots of great stuff on here, many SynthDefs by various authors were originallhy posted here. At the top comment in many our SynthDef files you will find the URL pointing to the sccode where we found the original SynthDef.
+
+### synthDEFaults
+Link: http://sccode.org/1-5aD 
+
+A collection of SynthDefs organized by Zé Craum and released under GNU GPL 3. A lot of of SynthDefs included in our collection were adapted from this source. The original authors' names has been preserved when known.
+
 ## Some conventions
 
 SynthDefs should have the following arguments (default values encouraged but flexible):
@@ -48,37 +67,5 @@ metadata: (
 )
 ).add;
 ```
-
-# Project description from 2019:
-
-Goal: Create a pool of freely available synth definitions in SuperCollider.
-
-Description: This research project aims to create new open source software synthesizers in the SuperCollider language. The new synthesizers will not only used by SCLOrk (the Santa Clara Laptop Orchestra), but also made available to the computer music community as a Quark. 
-
-## Tasks
-* Write original Synth Definitions based on established synthesis techniques;
-* Transcribe selected presets from open source software synthesizer such as Helm into SuperCollider language;
-* Analyze Synth Definitions by other SuperCollider users and standardize the code to fit our project guidelines;
-* Create short, compelling musical sequences using Pbind to demonstrate the potential of each Synth Definition.
-
-## Sources
-
-### SynthDefPool
-Link: https://github.com/supercollider-quarks/SynthDefPool
-Comment: This is a quark that has not been updated in a few years. We can incorporate all SynthDefs from there. Note how metadata is used.
-
-### sccode
-Link: http://sccode.org/ 
-Comment: Lots of stuff on here, some of which are SynthDefs that we can incorporate into our collection. Other pieces of code may have interesting sound ideas that we could *convert* into a SynthDef. This is an example of what we can find in sccode: https://sccode.org/1-57g and http://sccode.org/1-522 (three kicks and an FM Rhodes piano by Nathan Ho). Searching by a tag like "instrument" is a good starting point: https://sccode.org/tag/category/instrument 
-
-### synthDEFaults
-Link: http://sccode.org/1-5aD 
-Comment: This is a compilation of SynthDefs much like what we are trying to do. It's open source, so we can copy, adapt the formatting to our purposes, and share again within our collection with due credit given (metadata in each SynthDef):
-
-### Helm
-Link: https://tytel.org/helm/
-Comment: this is a cool software synthesizer with a bunch of interesting presets. We can recreate some of these presets by analyzing how they are made and writing equivalent SuperCollider code.
-
-
 
 
