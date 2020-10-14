@@ -7,7 +7,7 @@ Anyone is welcome to suggest new SynthDefs for the collection.
 
 Main contributors:
 
-*Bruno Ruviaro* @brunoruviaro - team director; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
+*Bruno Ruviaro* @brunoruviaro - project lead; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
 
 *Josh Mitchell* @joshmit - research assistant; responsible for standardizing coding conventions, rewriting SynthDefs to clarify or improve them, adding new amazing original SynthDefs
 
