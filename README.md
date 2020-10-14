@@ -65,7 +65,7 @@ Description: This research project aims to create new open source software synth
 
 ### SynthDefPool
 Link: https://github.com/supercollider-quarks/SynthDefPool
-Comment: This is a quark that has been abandoned by its creator. Pretty much the same concept of what we are trying to do. We can incorporate all SynthDefs from there. Note how metadata is used.
+Comment: This is a quark that has not been updated in a few years. We can incorporate all SynthDefs from there. Note how metadata is used.
 
 ### sccode
 Link: http://sccode.org/ 
