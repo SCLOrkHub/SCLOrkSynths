@@ -66,6 +66,13 @@ METHOD:: folderPath
 Posts the full path to the SCLOrkSynths folder.
 
 
+METHOD:: synthArgs
+Posts all arguments for a given synth.
+argument:: synth
+(symbol or string) the name of a SynthDef in the collection.
+
+
+
 EXAMPLES::
 
 code::
