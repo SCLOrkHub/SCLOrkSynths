@@ -87,7 +87,6 @@ SCLOrkSynths {
 
 	// Load all SynthDefs and Pbindefs:
 	*load {
-
 		Server.default.waitForBoot({
 			synthDictionary.keysValuesDo({ arg synthName, synthDic;
 				synthDic[\patternPath].postln;
@@ -95,10 +94,21 @@ SCLOrkSynths {
 				synthDic[\synthPath].postln;
 				synthDic[\synthPath].asString.load;
 			});
+			"SCLOrkSynths now loaded".postln;
 			"synthDictionary was created.".postln;
-			"all SynthDefs and Patterns were loaded".postln;
+			(synthDictionary.size.asString ++ " SynthDefs available.").postln;
 			" "
 		});
+	}
+
+	// true or false?
+	// we check for the presence of one unique synthdef and one unique pattern from the collection to tell if it's been loaded.
+	*isLoaded {
+		^if(
+			SynthDescLib.global.synthDescs.at(\defaultB).notNil
+			and: Pbindef.all.keys.includes(\ikedaBass),
+			{ true }, { false }
+		);
 	}
 
 	// Create GUI
@@ -129,7 +139,12 @@ SCLOrkSynths {
 
 		if( window.isNil, {
 
-			SCLOrkSynths.load;
+			// only call .load at GUI start up if we are sure SCLOrkSynths is not loaded
+			if( SCLOrkSynths.isLoaded, {
+				"Looks like SCLOrkSynths is already loaded. Opening GUI now...".postln;
+			}, {
+				SCLOrkSynths.load;
+			});
 
 			window = Window.new(
 				name: "SCLOrkSynths",
@@ -175,14 +190,11 @@ SCLOrkSynths {
 					buttonArray.do({arg button;
 						button.string = " ";
 					});
-					currentBank.postln;
 
 					// kind of works, but not alphabetical -- fix that later
 					synthDictionary.keys.asArray.sort.do({ arg synthName;
 						var synthDic = synthDictionary[synthName.asSymbol];
 						var indexDownByColumn = count % numberOfRows * numberOfColumns + count.div(numberOfRows);
-
-						// synthName.postln;
 
 						if(synthDic[\bank].asSymbol===currentBank.asSymbol,
 							{
@@ -215,9 +227,6 @@ SCLOrkSynths {
 			banksMenu.valueAction = currentBank;
 
 			footer1 = CompositeView.new(window, Rect.new(0, 300, windowWidth - (margin * 2), 50));
-			// footer1.background = Color.green(0.5, 0.2);
-
-			// footer1.bounds.height.postln;
 
 			currentSynthText = StaticText.new(
 				parent: footer1,
@@ -272,7 +281,6 @@ SCLOrkSynths {
 			])
 			.font_(Font(Font.default.name, 18))
 			.action_({ arg button;
-				// button.value.postln;
 				if((button.value==1),
 					{
 						Pdef(\spawner,
@@ -286,8 +294,6 @@ SCLOrkSynths {
 						Server.default.freeAll;
 					}
 				);
-				// "playing...".postln; Pdef(currentSynth.asSymbol).play });
-
 			})
 			.front;
 
@@ -313,7 +319,6 @@ SCLOrkSynths {
 						"Select a synth first!".postln;
 					}
 				);
-				button.value.postln;
 
 			})
 			.front;
@@ -323,7 +328,8 @@ SCLOrkSynths {
 			"opening SCLOrkSynths gui".postln;
 
 		}, {
-			"SCLOrkSynths GUI already open?".postln;
+			"SCLOrkSynths GUI already open".postln;
+			try { Window.find(\SCLOrkSynths).front };
 		});
 
 	}
@@ -343,7 +349,6 @@ SCLOrkSynths {
 			{
 				pString = pString.drop(-1);
 				pStringLastAscii = pString.last.ascii;
-				// ["last ascii now is", lastAscii].postln;
 			}
 		);
 
@@ -377,7 +382,6 @@ SCLOrkSynths {
 				{
 					pString = pString.drop(-1);
 					pStringLastAscii = pString.last.ascii;
-					// ["last ascii now is", lastAscii].postln;
 				}
 			);
 

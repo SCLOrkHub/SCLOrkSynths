@@ -47,11 +47,13 @@ argument:: synth
 
 
 METHOD:: gui
-Opens the Graphical User Interface to browse and audition the collection.
+Opens the Graphical User Interface to browse and audition the collection. If SynthDefs and Patterns have not been loaded yet, this will load them now. If SynthDefs and Patterns have already been loaded, this will simply open (or reopen) the GUI.
 code::
 SCLOrkSynths.gui;
 ::
 
+METHOD:: isLoaded
+Returns true if SynthDefs and Patterns have already been loaded, false otherwise.
 
 METHOD:: window
 Returns the GUI window (assuming the GUI is open).
