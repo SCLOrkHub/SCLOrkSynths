@@ -5,7 +5,17 @@ Collection of SuperCollider SynthDefs (synth definitions) with accompanying Patt
 
 Anyone is welcome to suggest new SynthDefs for the collection.
 
-Main contributors:
+## Installation
+
+You can install SCLOrkSynths just like any other SuperCollider [Quark](https://doc.sccode.org/Guides/UsingQuarks.html):
+
+```
+Quarks.fetchDirectory;
+Quarks.install("SCLOrkSynths");
+```
+You may also use the Quarks gui (run `Quarks.gui;`) instead of running the lines above.
+
+Contributors:
 
 *Bruno Ruviaro* @brunoruviaro - project lead; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
 
