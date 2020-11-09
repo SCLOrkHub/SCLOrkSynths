@@ -14,18 +14,7 @@ Quarks.fetchDirectory;
 Quarks.install("SCLOrkSynths");
 ```
 You may also use the Quarks gui (run `Quarks.gui;`) instead of running the lines above.
-
-Contributors:
-
-*Bruno Ruviaro* @brunoruviaro - project lead; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
-
-*Josh Mitchell* @joshmit - research assistant; responsible for standardizing coding conventions, rewriting SynthDefs to clarify or improve them, adding new amazing original SynthDefs
-
-*Meha Gupta* @mehagupta - volunteer; initial gathering and upload of SynthDefs from mailing lists and public forums; contribution of additional demos
-
-*Diya Menon* - volunteer; contribution of additional pattern demos
-
-Most SynthDefs have their original author credited in the corresponding scd file. However, we could not identify the author for a few SynthDefs. Please let us know if you know the source of a SynthDef that has no author name, we'll be happy to add it.
+If you run into any trouble, you can try [these steps](https://github.com/SCLOrkHub/SCLOrkSynths/issues/95#issuecomment-724156637) to start fresh.
 
 ## Sources
 
@@ -45,6 +34,18 @@ Lots of great stuff on here, many SynthDefs by various authors were originallhy 
 Link: http://sccode.org/1-5aD 
 
 A collection of SynthDefs organized by Zé Craum and released under GNU GPL 3. A lot of of SynthDefs included in our collection were adapted from this source. The original authors' names has been preserved when known.
+
+## Contributors
+
+*Bruno Ruviaro* @brunoruviaro - project lead; responsible for final review of all code, GUI creation, Quark maintenance, creation of some original SynthDefs
+
+*Josh Mitchell* @joshmit - research assistant; responsible for standardizing coding conventions, rewriting SynthDefs to clarify or improve them, adding new amazing original SynthDefs
+
+*Meha Gupta* @mehagupta - volunteer; initial gathering and upload of SynthDefs from mailing lists and public forums; contribution of additional demos
+
+*Diya Menon* - volunteer; contribution of additional pattern demos
+
+Most SynthDefs have their original author credited in the corresponding scd file. However, we could not identify the author for a few SynthDefs. Please let us know if you know the source of a SynthDef that has no author name, we'll be happy to add it.
 
 ## Some conventions
 
