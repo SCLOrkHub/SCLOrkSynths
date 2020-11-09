@@ -33,7 +33,7 @@ Lots of great stuff on here, many SynthDefs by various authors were originallhy 
 ### synthDEFaults
 Link: http://sccode.org/1-5aD 
 
-A collection of SynthDefs organized by Zé Craum and released under GNU GPL 3. A lot of of SynthDefs included in our collection were adapted from this source. The original authors' names has been preserved when known.
+A collection of SynthDefs organized by Fellipe Martins aka Zé Craum. A lot of of SynthDefs included in our collection were adapted from this source. The original authors' names have been preserved when known.
 
 ## Contributors
 
