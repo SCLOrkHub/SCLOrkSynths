@@ -131,6 +131,8 @@ SCLOrkSynths {
 		var footer1, footer2;
 		var currentSynth;
 		var currentSynthText;
+		var group;
+		var pattern;
 
 		// might move this out of here as a separate listBanks method
 		var banks = PathName.new(folderPath +/+ "SynthDefs").folders.collect({ arg p; p.folderName.asSymbol});
@@ -281,17 +283,19 @@ SCLOrkSynths {
 			])
 			.font_(Font(Font.default.name, 18))
 			.action_({ arg button;
+
 				if((button.value==1),
 					{
-						Pdef(\spawner,
+						group = Group.new;
+						pattern = Pdef(\spawner,
 							Pspawner({ arg sp;
-								sp.seq(Pdef(currentSynth.asSymbol));
-								{ button.value = 0 }.defer;
+								sp.seq(Pchain(Pdef(currentSynth.asSymbol), (group: group)));
+								{ button.valueAction = 0 }.defer;
 						})).play(quant: 0);
 					},{
-						Pdef(currentSynth.asSymbol).stop;
+						pattern.stop;
+						group.free;
 						Pdef(\spawner).clear;
-						Server.default.freeAll;
 					}
 				);
 			})
