@@ -1,7 +1,7 @@
 
 SCLOrkSynths {
 
-	classvar <window, bankPathsArray, patternPathsArray, <synthDictionary, <folderPath;
+	classvar <window, bankPathsArray, patternPathsArray, <synthDictionary, <folderPath, newEvent;
 
 	// add all SynthDefs (checks if server is on)
 	// optional: force reboot server to ensure right memSize and stuff?
@@ -89,12 +89,11 @@ SCLOrkSynths {
 	*load {
 		Server.default.waitForBoot({
 			synthDictionary.keysValuesDo({ arg synthName, synthDic;
-				synthDic[\patternPath].postln;
 				synthDic[\patternPath].asString.load;
-				synthDic[\synthPath].postln;
 				synthDic[\synthPath].asString.load;
+				PathName(synthDic[\synthPath]).fileName.postln;
 			});
-			"SCLOrkSynths now loaded".postln;
+			"-\n-\n-\nSCLOrkSynths now loaded.".postln;
 			"synthDictionary was created.".postln;
 			(synthDictionary.size.asString ++ " SynthDefs available.").postln;
 			" "
@@ -284,18 +283,18 @@ SCLOrkSynths {
 			.font_(Font(Font.default.name, 18))
 			.action_({ arg button;
 
+
 				if((button.value==1),
 					{
-						group = Group.new;
-						pattern = Pdef(\spawner,
+						Ndef(\demoPlayer,
 							Pspawner({ arg sp;
-								sp.seq(Pchain(Pdef(currentSynth.asSymbol), (group: group)));
-								{ button.valueAction = 0 }.defer;
-						})).play(quant: 0);
+								sp.seq(Pdef(currentSynth.asSymbol));
+								0.1.wait;
+								{ button.value = 0 }.defer;
+							})
+						).play.fadeTime_(1).quant_(0);
 					},{
-						pattern.stop;
-						group.free;
-						Pdef(\spawner).clear;
+						Ndef(\demoPlayer).clear(0.1);
 					}
 				);
 			})
@@ -429,8 +428,12 @@ SCLOrkSynths {
 
 			^synthArgs; // return list of args juts in case
 		}, {
-			"WARNING: SynthDef does exist. Mispelled name?".postln;
+			"WARNING: SynthDef does not exist. Mispelled name?".postln;
 		});
+	}
+
+	*args { | synth |
+		SCLOrkSynths.synthArgs(synth);
 	}
 
 } // end of SCLOrkSynths class definition

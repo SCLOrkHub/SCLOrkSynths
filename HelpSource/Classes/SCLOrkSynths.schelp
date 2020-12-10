@@ -73,7 +73,13 @@ Posts all arguments for a given synth.
 argument:: synth
 (symbol or string) the name of a SynthDef in the collection.
 
-
+METHOD:: args
+Posts all arguments for a given synth (shorthand for synthArgs).
+argument:: synth
+(symbol or string) the name of a SynthDef in the collection.
+code::
+SCLOrkSynths.args(\apadMH);
+::
 
 EXAMPLES::
 
