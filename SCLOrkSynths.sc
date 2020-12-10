@@ -1,7 +1,7 @@
 
 SCLOrkSynths {
 
-	classvar <window, bankPathsArray, patternPathsArray, <synthDictionary, <folderPath, newEvent;
+	classvar <window, bankPathsArray, patternPathsArray, <synthDictionary, <folderPath;
 
 	// add all SynthDefs (checks if server is on)
 	// optional: force reboot server to ensure right memSize and stuff?
