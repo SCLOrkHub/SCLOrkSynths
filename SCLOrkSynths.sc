@@ -130,8 +130,7 @@ SCLOrkSynths {
 		var footer1, footer2;
 		var currentSynth;
 		var currentSynthText;
-		var group;
-		var pattern;
+		var playButton;
 
 		// might move this out of here as a separate listBanks method
 		var banks = PathName.new(folderPath +/+ "SynthDefs").folders.collect({ arg p; p.folderName.asSymbol});
@@ -219,6 +218,9 @@ SCLOrkSynths {
 					bounds: Point.new(buttonWidth, buttonHeight),
 				)
 				.action_({ arg button;
+					// In case user selects new synth during a running demo, STOP that demo right away:
+					playButton.valueAction = 0;
+					// Now update currentSynth
 					currentSynthText.string = button.string;
 					currentSynth = button.string;
 				});
@@ -266,7 +268,7 @@ SCLOrkSynths {
 			.front;
 
 			// play button
-			Button.new(
+			playButton = Button.new(
 				parent: footer2,
 				bounds: Rect.new(
 					left: footer2.bounds.width / 3,
@@ -284,17 +286,21 @@ SCLOrkSynths {
 			.action_({ arg button;
 
 
+				// expensive solution to avoid FAILURE IN SERVER messages...
+				// one unique Ndef per demo
 				if((button.value==1),
 					{
-						Ndef(\demoPlayer,
+						Ndef(currentSynth.asSymbol).resume;
+						Ndef(currentSynth.asSymbol,
 							Pspawner({ arg sp;
 								sp.seq(Pdef(currentSynth.asSymbol));
 								0.1.wait;
 								{ button.value = 0 }.defer;
 							})
-						).play.fadeTime_(1).quant_(0);
+						).play.fadeTime_(0).quant_(0);
 					},{
-						Ndef(\demoPlayer).clear(0.1);
+						Ndef(currentSynth.asSymbol).pause;
+						Ndef(currentSynth.asSymbol).stop(0.1);
 					}
 				);
 			})
