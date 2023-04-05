@@ -111,7 +111,7 @@ SynthDef(\distortedGuitar, {
 
 	DetectSilence.ar(in: snd, doneAction: 2);
 
-	Out.ar(out, Pan2.ar(snd));
+	Out.ar(out, Pan2.ar(snd, pan));
 },
 metadata: (
 	credit: "Josh Mitchell",
